@@ -529,7 +529,6 @@ fun TextFieldCheckUpQuestion(){
                 // Text
                 ReusableText("How much do you weigh today?", MaterialTheme
                     .typography.bodyLarge, Bold, Color.Gray)
-                SimpleWhiteTextField(value = weight, onValueChange = "")
             }
         }
 
