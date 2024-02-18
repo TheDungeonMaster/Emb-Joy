@@ -16,22 +16,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.authentication_logic.AuthService
 
-import com.example.pregnancyapp.login_register.components.ButtonComponent
-import com.example.pregnancyapp.login_register.components.CheckboxComponent
+import com.example.pregnancyapp.login_register.components.ButtonComponentConstColor
 import com.example.pregnancyapp.login_register.components.EmailTextFieldComponent
 import com.example.pregnancyapp.login_register.components.HeadingTextComponent
-import com.example.pregnancyapp.login_register.components.MyTextFieldComponent
 import com.example.pregnancyapp.login_register.components.NormalTextComponent
 import com.example.pregnancyapp.login_register.components.PasswordFieldComponent
-import com.example.pregnancyapp.login_register.components.ReusableText
-import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,7 +61,7 @@ fun LoginPage(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(20.dp))
 
-            ButtonComponent(value = "LOG IN") {
+            ButtonComponentConstColor(value = "LOG IN") {
                 if (email.isEmpty() || password.isEmpty()) {
                     // Show an error message or handle empty fields accordingly
                     // For example, you can display a Snackbar or Toast
@@ -92,13 +86,15 @@ fun LoginPage(navController: NavController) {
             NormalTextComponent(value = "Don't have an account?", 16)
             Spacer(modifier = Modifier.height(30.dp))
 
-            ButtonComponent(value = "CREATE ACCOUNT") {
+            ButtonComponentConstColor(value = "CREATE ACCOUNT") {
                 // Navigate to the SignUpPage when the "CREATE ACCOUNT" button is clicked
                 navController.navigate("signup")
             }
         }
     }
 }
+
+
 
 
 

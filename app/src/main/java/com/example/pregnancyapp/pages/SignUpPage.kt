@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,16 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.User
 
-import com.example.pregnancyapp.login_register.components.ButtonComponent
+import com.example.pregnancyapp.login_register.components.ButtonComponentConstColor
 import com.example.pregnancyapp.login_register.components.CheckboxComponent
 import com.example.pregnancyapp.login_register.components.EmailTextFieldComponent
 import com.example.pregnancyapp.login_register.components.HeadingTextComponent
@@ -44,9 +39,7 @@ fun SignUpPage(navController: NavController){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var termsChecked by remember { mutableStateOf(false) }
-
     val coroutineScope = rememberCoroutineScope()
-
 
     Surface(
         modifier = Modifier
@@ -103,9 +96,7 @@ fun SignUpPage(navController: NavController){
 
             Spacer(modifier = Modifier.height(10.dp))
 
-
-
-            ButtonComponent(
+            ButtonComponentConstColor(
                 value = "REGISTER",
                 onClick = {
                     coroutineScope.launch {
@@ -113,7 +104,8 @@ fun SignUpPage(navController: NavController){
                             // Handle empty fields error
                             println("Error: Empty fields")
                         } else {
-                            val newUser = User(email = email, password = password)
+                            val newUser = User(email = email, password =
+                                password)
 
                             try {
                                 if (AuthService.registerUser(newUser)) {

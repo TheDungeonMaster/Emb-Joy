@@ -37,15 +37,12 @@ fun WelcomePage(){
         Row(
             modifier = Modifier
                 .padding(30.dp)
-
-
         ) {
             ReusableText(text = "Welcome!", textStyle = MaterialTheme
-                .typography.headlineMedium, fontWeight = Bold)
+                .typography.headlineMedium, fontWeight = Bold, Color.Black)
             Spacer(modifier = Modifier.weight(2f))
             ReusableIcon(iconResourceId = R.drawable.bell, iconSize =
-            35)
-
+            35, scaleSize = 1f, 0)
 
         }
         Column(

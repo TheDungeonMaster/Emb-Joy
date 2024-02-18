@@ -8,9 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+
+
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,12 +34,15 @@ import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,7 +51,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -56,13 +69,17 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.font.FontWeight.Companion.Normal
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.graphics.toColorInt
 import com.example.pregnancyapp.R
 
 @Composable
@@ -121,7 +138,7 @@ fun MyTextFieldComponent(
         onValueChange = { onTextValueChange(it) },
         label = {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = labelValue)
@@ -149,29 +166,73 @@ fun ReusableText(
     text: String,
     textStyle: TextStyle = LocalTextStyle.current,
     fontWeight: FontWeight? = null,
+    color: Color
 ) {
     Text(
         text = text,
-        style = textStyle.copy(fontWeight = fontWeight)
+        style = textStyle.copy(fontWeight = fontWeight, color = color),
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ReusableTextCentered(
+    text: String,
+    textStyle: TextStyle = LocalTextStyle.current,
+    fontWeight: FontWeight? = null,
+    color: Color,
+) {
+    Text(
+        text = text,
+        style = textStyle.copy(fontWeight = fontWeight, color = color),
+        textAlign = TextAlign.Center
+    )
+}
 
 @Composable
-fun ReusableIcon(iconResourceId: Int, iconSize: Int) {
+fun ReusableIcon(iconResourceId: Int, iconSize: Int, scaleSize: Float,
+                 bottomPadding: Int) {
     val painter = painterResource(id = iconResourceId)
 
     Box(
         modifier = Modifier
-            .size(iconSize.dp),
-        contentAlignment = Alignment.TopCenter
+            .size(iconSize.dp)
+            .scale(scaleSize)
+            .padding(bottom = bottomPadding.dp) ,
+        contentAlignment = Alignment.Center
     ) {
         Icon(
             painter = painter,
             contentDescription = null, // No content description
             tint = Color.Unspecified // No tint
+
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleWhiteTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier
+            .padding(top = 5.dp)
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background),
+        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.primary),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = MaterialTheme.colorScheme.onSecondary,
+            cursorColor = MaterialTheme.colorScheme.primary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.primary
+        ),
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+    )
 }
 
 
@@ -181,12 +242,29 @@ fun CircleShapeComponent() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.65f)
-            .background(Color(android.graphics.Color.parseColor("#64BCB9")),
-                shape = CircleShape),
+            .background(
+                Color(android.graphics.Color.parseColor("#64BCB9")),
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center // Center the content inside the Box
     ) {
-        // Content inside the circle
+        ReusableIcon(iconResourceId = R.drawable.baby_embryo, iconSize = 130,
+            scaleSize = 2.5f, 20)
+
+
+        ReusableText(text = "6 weeks 1 day", MaterialTheme.typography
+            .headlineMedium, Bold, Color.White)
+        ReusableText(text = "237 days left", MaterialTheme.typography
+            .headlineMedium, Normal, Color.White)
+
+
+
+
+
     }
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -197,8 +275,6 @@ fun EmailTextFieldComponent(
     onTextValueChange: (String) -> Unit,
 ){
     var isValidEmail by remember { mutableStateOf(true) }
-
-
 
     if (!isValidEmail && textValue.isNotEmpty()) {
         Text(
@@ -221,9 +297,10 @@ fun EmailTextFieldComponent(
                 tint = Color.Gray
             )
         },
+        modifier = Modifier
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
     )
-
 }
 
 fun isValidEmail(email: String): Boolean {
@@ -257,6 +334,8 @@ fun PasswordFieldComponent(
                 tint = Color.Gray
             )
         },
+        modifier = Modifier
+            .fillMaxWidth(),
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
     )
@@ -273,7 +352,7 @@ fun CheckboxComponent(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(56.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = CenterVertically,
     ) {
 
         val checkedState = remember {
@@ -328,33 +407,137 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 }
 
 @Composable
-fun ButtonComponent(value: String, onClick: () -> Unit) {
+fun ButtonComponentCustomColor(value: String,  onClick: () -> Unit, color:
+Color,
+                    textColor: Color) {
 
     val coroutineScope = rememberCoroutineScope()
+    val isClicked = remember { mutableStateOf(false) }
+    val buttonColor = if (isClicked.value) Color(0xFF75BFCB) else textColor
 
-
-    Button(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(48.dp),
-        contentPadding = PaddingValues(),
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(Color.Transparent)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+
     ) {
-        Box(
+        ElevatedButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(48.dp)
-                .background(Color.Blue),
-            contentAlignment = Alignment.Center
+            ,
+            contentPadding = PaddingValues(),
+            onClick = onClick,
+
+            colors = ButtonDefaults.buttonColors(Color.Transparent)
         ) {
-            Text(
-                text = value,
-                fontSize = 18.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color)
+                    .height(50.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 18.sp,
+                    color = textColor,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
 
+@Composable
+fun ButtonComponentConstColor(value: String,  onClick: () -> Unit) {
+
+    val coroutineScope = rememberCoroutineScope()
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+
+    ) {
+        ElevatedButton(
+            modifier = Modifier
+            ,
+            contentPadding = PaddingValues(),
+            onClick = onClick,
+
+            colors = ButtonDefaults.buttonColors(Color.Transparent)
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF75BFCB))
+                    .height(50.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 18.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TextFieldCheckUpQuestion(){
+
+    var enteredText by remember { mutableStateOf("") }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .background(Color(0xFFF9F9F9))
+            .padding(10.dp)
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // First Column for the Icon
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Replace the content inside this Column with your icon
+                ReusableIcon(
+                    iconResourceId = R.drawable.weight_scale_logo,
+                    iconSize = 100,
+                    scaleSize = 0.75f,
+                    bottomPadding = 0
+                )
+            }
+
+            // Second Column for the Text and TextField
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                // Text
+                ReusableText("How much do you weigh today?", MaterialTheme
+                    .typography.bodyLarge, Bold, Color.Gray)
+                SimpleWhiteTextField(value = weight, onValueChange = "")
+            }
+        }
+
+    }
+}
+
+@Preview
+@Composable
+fun PreviewTextFieldCheckUpQuestion(){
+    TextFieldCheckUpQuestion()
+}
