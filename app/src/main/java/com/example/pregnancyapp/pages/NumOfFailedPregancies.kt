@@ -15,13 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.pregnancyapp.R
-import com.example.pregnancyapp.login_register.components.ButtonComponentCustomColor
-import com.example.pregnancyapp.login_register.components.ReusableIcon
-import com.example.pregnancyapp.login_register.components.ReusableTextCentered
+import com.example.pregnancyapp.ButtonComponentCustomColor
+import com.example.pregnancyapp.ReusableIcon
+import com.example.pregnancyapp.ReusableTextCentered
 
 @Composable
-fun NumOfFailedPregnancies() {
+fun NumOfFailedPregnancies(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -31,7 +32,7 @@ fun NumOfFailedPregnancies() {
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
-                    top = 100.dp,
+                    top = 40.dp,
                     bottom = 0.dp
                 ),
             verticalArrangement = Arrangement.Top,
@@ -49,9 +50,12 @@ fun NumOfFailedPregnancies() {
 
             Spacer(modifier = Modifier.height(90.dp))
 
-            ButtonComponentCustomColor(value = "1", onClick = { /* your action
-            for "No"
-             button */ }, Color(0xFFFFFCF6), Color.Black)
+            ButtonComponentCustomColor(
+                value = "1",
+                onClick = { },
+                Color
+                (0xFFFFFCF6),
+                Color.Black)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -76,8 +80,3 @@ fun NumOfFailedPregnancies() {
     }
 }
 
-@Preview
-@Composable
-fun PreviewNumOfFailedPregnancies(){
-    NumOfFailedPregnancies()
-}

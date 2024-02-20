@@ -10,8 +10,11 @@ import com.example.pregnancyapp.questionnaire.QuestionnaireData
 data class User(
     @PrimaryKey val email: String,
     val password: String,
-    // Add this field to reference the QuestionnaireData
-    /*@Embedded
-    val questionnaireData: QuestionnaireData?*/
-
+    var nameSurname: String? = null,
+    var dayOfPregnancy: String? = null,
+    var weight: String? = null,
+    var height: String? = null,
+    @Embedded(prefix = "questionnaire_")
+    var questionnaireData: QuestionnaireData? = null
 )
+

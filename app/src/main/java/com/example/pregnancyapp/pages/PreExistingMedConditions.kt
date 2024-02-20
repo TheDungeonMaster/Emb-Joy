@@ -15,10 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.pregnancyapp.R
-import com.example.pregnancyapp.login_register.components.ButtonComponentCustomColor
-import com.example.pregnancyapp.login_register.components.ReusableIcon
-import com.example.pregnancyapp.login_register.components.ReusableTextCentered
+import com.example.pregnancyapp.ButtonComponentCustomColor
+import com.example.pregnancyapp.ReusableTextCentered
 
 @Composable
 fun PreExistingMedConditions() {

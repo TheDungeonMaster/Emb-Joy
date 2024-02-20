@@ -16,23 +16,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.User
 
-import com.example.pregnancyapp.login_register.components.ButtonComponentConstColor
-import com.example.pregnancyapp.login_register.components.CheckboxComponent
-import com.example.pregnancyapp.login_register.components.EmailTextFieldComponent
-import com.example.pregnancyapp.login_register.components.HeadingTextComponent
-import com.example.pregnancyapp.login_register.components.MyTextFieldComponent
-import com.example.pregnancyapp.login_register.components.NormalTextComponent
-import com.example.pregnancyapp.login_register.components.PasswordFieldComponent
+import com.example.pregnancyapp.ButtonComponentConstColor
+import com.example.pregnancyapp.CheckboxComponent
+import com.example.pregnancyapp.EmailTextFieldComponent
+import com.example.pregnancyapp.HeadingTextComponent
+import com.example.pregnancyapp.MyTextFieldComponent
+import com.example.pregnancyapp.NormalTextComponent
+import com.example.pregnancyapp.PasswordFieldComponent
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpPage(navController: NavController){
+fun SignUpPage(navController: NavController, authViewModel: AuthViewModel = viewModel()){
 
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -104,11 +107,9 @@ fun SignUpPage(navController: NavController){
                             // Handle empty fields error
                             println("Error: Empty fields")
                         } else {
-                            val newUser = User(email = email, password =
-                                password)
-
                             try {
-                                if (AuthService.registerUser(newUser)) {
+                                if (authViewModel.registerUserAndFetchQuestionnaire(email, password)) {
+                                    // After successful registration and fetching questionnaire data, navigate to the next screen
                                     navController.navigate("login")
                                 } else {
                                     // Handle registration failed error
@@ -122,8 +123,10 @@ fun SignUpPage(navController: NavController){
                     }
                 }
             )
+
         }
     }
 }
+
 
 

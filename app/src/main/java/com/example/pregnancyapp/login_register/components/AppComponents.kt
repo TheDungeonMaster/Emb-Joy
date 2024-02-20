@@ -1,25 +1,17 @@
 package com.example.pregnancyapp.login_register.components
 
 
-import android.graphics.drawable.Icon
 import android.util.Log
 import android.util.Patterns
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -32,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -44,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pregnancyapp.R
 
 @Composable
 fun NormalTextComponent(value: String){
@@ -143,7 +133,7 @@ fun EmailTextFieldComponent(labelValue: String, painterResource: Painter){
             value = textValue.value,
             onValueChange = {
                 textValue.value = it
-                isValidEmail = isValidEmail(it)
+                isValidEmail = com.example.pregnancyapp.isValidEmail(it)
             },
             leadingIcon = {
                 androidx.compose.material3.Icon(
@@ -213,7 +203,10 @@ fun CheckboxComponent(
                 checkedState.value = !checkedState.value
             })
 
-        ClickableTextComponent(value = value, onTextSelected)
+        com.example.pregnancyapp.ClickableTextComponent(
+            value = value,
+            onTextSelected
+        )
     }
 }
 

@@ -21,11 +21,11 @@ import androidx.navigation.NavController
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.authentication_logic.AuthService
 
-import com.example.pregnancyapp.login_register.components.ButtonComponentConstColor
-import com.example.pregnancyapp.login_register.components.EmailTextFieldComponent
-import com.example.pregnancyapp.login_register.components.HeadingTextComponent
-import com.example.pregnancyapp.login_register.components.NormalTextComponent
-import com.example.pregnancyapp.login_register.components.PasswordFieldComponent
+import com.example.pregnancyapp.ButtonComponentConstColor
+import com.example.pregnancyapp.EmailTextFieldComponent
+import com.example.pregnancyapp.HeadingTextComponent
+import com.example.pregnancyapp.NormalTextComponent
+import com.example.pregnancyapp.PasswordFieldComponent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -72,7 +72,7 @@ fun LoginPage(navController: NavController) {
                         val loginSuccessful = AuthService.loginUser(email, password)
 
                         if (loginSuccessful) {
-                            navController.navigate("welcome")
+                            navController.navigate("mommyquestionnairepage")
                         } else {
                             // Show login failed message or handle accordingly
                             // TODO: Handle login failed error

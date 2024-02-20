@@ -1,20 +1,15 @@
-package com.example.pregnancyapp.login_register.components
+package com.example.pregnancyapp
 
 
 import android.util.Log
 import android.util.Patterns
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
-
-
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,16 +17,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialogDefaults.shape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedButton
@@ -51,14 +43,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -78,28 +66,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.graphics.toColorInt
-import com.example.pregnancyapp.R
-
-@Composable
-fun NormalTextComponent(value: String, textSize: Int){
-    Text(
-        text = value,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 20.dp),
-        style = TextStyle(
-            fontSize = textSize.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-            fontFamily = FontFamily.Default
-
-        )
-
-    )
-}
+import com.example.pregnancyapp.pages.CheckUpQuestions
+import com.example.pregnancyapp.pages.MommyQuestionnairePage
 
 @Composable
 fun HeadingTextComponent(value: String){
@@ -119,6 +87,25 @@ fun HeadingTextComponent(value: String){
 
     )
 }
+@Composable
+fun NormalTextComponent(value: String, textSize: Int){
+    Text(
+        text = value,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 20.dp),
+        style = TextStyle(
+            fontSize = textSize.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal,
+            fontFamily = FontFamily.Default
+
+        )
+
+    )
+}
+
 
 
 
@@ -133,7 +120,7 @@ fun MyTextFieldComponent(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
+            ,
         value = textValue,
         onValueChange = { onTextValueChange(it) },
         label = {
@@ -166,7 +153,8 @@ fun ReusableText(
     text: String,
     textStyle: TextStyle = LocalTextStyle.current,
     fontWeight: FontWeight? = null,
-    color: Color
+    color: Color,
+    modifier: Modifier
 ) {
     Text(
         text = text,
@@ -216,24 +204,52 @@ fun SimpleWhiteTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    backgroundColor: Color
 ) {
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        textStyle = MaterialTheme.typography.bodyMedium,
+        modifier = modifier
+            .background(backgroundColor) // Set the background color
+            .padding(top = 10.dp, start = 16.dp, end = 16.dp) // Adjusted
+            // padding
+            .height(60.dp)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomWhiteTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color
+) {
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier
-            .padding(top = 5.dp)
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
-        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.primary),
+            .height(60.dp)
+            .background(Color.Transparent)
+            .shadow(1.dp, shape = RoundedCornerShape(2.dp)), // Add shadow
+        textStyle = MaterialTheme.typography.bodyMedium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colorScheme.onSecondary,
+            textColor = Color.Black,
             cursorColor = MaterialTheme.colorScheme.primary,
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary
+            unfocusedBorderColor = Color(0xFFD9D9D9),
+            focusedBorderColor = Color(0xFFD9D9D9),
+            disabledBorderColor = Color(0xFFD9D9D9),
         ),
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
     )
 }
+
+
+
+
 
 
 @Composable
@@ -252,14 +268,14 @@ fun CircleShapeComponent() {
             scaleSize = 2.5f, 20)
 
 
-        ReusableText(text = "6 weeks 1 day", MaterialTheme.typography
-            .headlineMedium, Bold, Color.White)
-        ReusableText(text = "237 days left", MaterialTheme.typography
-            .headlineMedium, Normal, Color.White)
-
-
-
-
+        ReusableText(
+            text = "6 weeks 1 day", MaterialTheme.typography
+                .headlineMedium, Bold, Color.White, Modifier.padding(start = 10.dp)
+        )
+        ReusableText(
+            text = "237 days left", MaterialTheme.typography
+                .headlineMedium, Normal, Color.White, Modifier.padding(start = 10.dp)
+        )
 
     }
 }
@@ -302,6 +318,7 @@ fun EmailTextFieldComponent(
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
     )
 }
+
 
 fun isValidEmail(email: String): Boolean {
     val pattern = Patterns.EMAIL_ADDRESS
@@ -354,20 +371,20 @@ fun CheckboxComponent(
             .heightIn(56.dp),
         verticalAlignment = CenterVertically,
     ) {
+        var checkedState by remember { mutableStateOf(false) }
 
-        val checkedState = remember {
-            mutableStateOf(false)
-        }
-
-        Checkbox(checked = checkedState.value,
+        Checkbox(
+            checked = checkedState,
             onCheckedChange = {
-                checkedState.value = !checkedState.value
+                checkedState = it
                 onCheckedChange.invoke(it)
-            })
+            }
+        )
 
         ClickableTextComponent(value = value, onTextSelected)
     }
 }
+
 
 @Composable
 fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
@@ -408,8 +425,7 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 
 @Composable
 fun ButtonComponentCustomColor(value: String,  onClick: () -> Unit, color:
-Color,
-                    textColor: Color) {
+Color, textColor: Color) {
 
     val coroutineScope = rememberCoroutineScope()
     val isClicked = remember { mutableStateOf(false) }
@@ -440,6 +456,46 @@ Color,
                 Text(
                     text = value,
                     fontSize = 18.sp,
+                    color = textColor,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun BooleanButtonComponent(value: String,  onClick: () -> Unit, color:
+Color, textColor: Color) {
+
+    val coroutineScope = rememberCoroutineScope()
+    val isClicked = remember { mutableStateOf(false) }
+    val buttonColor = if (isClicked.value) Color(0xFF75BFCB) else textColor
+
+    Box(
+        modifier = Modifier
+            .height(28.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        ElevatedButton(
+            modifier = Modifier
+            ,
+            contentPadding = PaddingValues(),
+            onClick = onClick,
+
+            colors = ButtonDefaults.buttonColors(Color.Transparent)
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .width(100.dp)
+                    .background(color)
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 12.sp,
                     color = textColor,
                     fontWeight = FontWeight.Bold
                 )
@@ -487,56 +543,158 @@ fun ButtonComponentConstColor(value: String,  onClick: () -> Unit) {
 }
 
 @Composable
-fun TextFieldCheckUpQuestion(){
-
+fun TextFieldCheckUpQuestion(questionText: String, iconInt: Int) {
     var enteredText by remember { mutableStateOf("") }
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
-            .background(Color(0xFFF9F9F9))
-            .padding(10.dp)
-    ){
+            .height(120.dp)
+            .background(Color.Transparent),
+        shape = RoundedCornerShape(15.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF6F6F6)),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // First Column for the Icon
+                ReusableIcon(
+                    iconResourceId = iconInt,
+                    iconSize = 100,
+                    scaleSize = 0.7f,
+                    bottomPadding = 0
+                )
+
+                // Second Column for the Text and TextField
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 25.dp, end = 25.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    ReusableText(
+                        questionText,
+                        MaterialTheme.typography.labelSmall,
+                        Bold,
+                        Color(0xFF686161) ,Modifier)
+                    SimpleWhiteTextField(
+                        value = enteredText,
+                        onValueChange = { enteredText = it },
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        backgroundColor = Color(0xFFD9D9D9),
+
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun BooleanCheckUpQuestions(questionText: String, iconInt: Int) {
+    var enteredText by remember { mutableStateOf("") }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+            .background(Color.Transparent),
+        shape = RoundedCornerShape(15.dp),
+    ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .background(Color(0xFFF6F6F6)),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // First Column for the Icon
             Column(
                 modifier = Modifier
+                    .padding(10.dp)
+
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Replace the content inside this Column with your icon
                 ReusableIcon(
-                    iconResourceId = R.drawable.weight_scale_logo,
+                    iconResourceId = iconInt,
                     iconSize = 100,
-                    scaleSize = 0.75f,
+                    scaleSize = 0.7f,
                     bottomPadding = 0
                 )
             }
 
-            // Second Column for the Text and TextField
+            // Second Column for the Text and Buttons
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 25.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                // Text
-                ReusableText("How much do you weigh today?", MaterialTheme
-                    .typography.bodyLarge, Bold, Color.Gray)
+                Column(
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        ReusableText(
+                            questionText,
+                            MaterialTheme.typography.labelSmall,
+                            Bold,
+                            Color(0xFF686161),
+                            Modifier.padding(start = 10.dp)
+                        )
+                    }
+
+                    // Row to place the two buttons next to each other
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp)
+                            .align(Alignment.CenterHorizontally),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+
+                    ){
+                        BooleanButtonComponent(
+                            value = "Yes",
+                            onClick = { /*TODO*/ },
+                            color = Color(0xFFD9D9D9),
+                            textColor = Color.DarkGray
+                        )
+                        BooleanButtonComponent(
+                            value = "No",
+                            onClick = { /*TODO*/ },
+                            color = Color(0xFFD9D9D9),
+                            textColor = Color.DarkGray
+                        )
+
+
+                    }
+
+                }
             }
         }
-
     }
 }
 
-@Preview
-@Composable
-fun PreviewTextFieldCheckUpQuestion(){
-    TextFieldCheckUpQuestion()
-}
+
+
+
