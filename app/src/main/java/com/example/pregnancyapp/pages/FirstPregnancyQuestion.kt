@@ -20,9 +20,10 @@ import com.example.pregnancyapp.R
 import com.example.pregnancyapp.ButtonComponentCustomColor
 import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableTextCentered
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 @Composable
-fun FirstPregnancyQuestion(navController: NavController) {
+fun FirstPregnancyQuestion(navController: NavController,authViewModel: AuthViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -50,8 +51,14 @@ fun FirstPregnancyQuestion(navController: NavController) {
 
             Spacer(modifier = Modifier.height(90.dp))
 
-            ButtonComponentCustomColor(value = "Yes", onClick =
-            {navController.navigate("pregnancynumber")}, Color(0xFF75BFCB),
+            ButtonComponentCustomColor(
+                value = "Yes",
+                onClick = {
+                    navController.navigate("questionfailedpregnancies")
+                    authViewModel.handleNumOfPregnanciesQuestion("0")
+                          },
+                Color
+                (0xFF75BFCB),
                 Color.White)
 
             Spacer(modifier = Modifier.height(40.dp))

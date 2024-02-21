@@ -1,6 +1,5 @@
 package com.example.pregnancyapp.authentication_logic
 
-import androidx.room.Room
 import com.example.pregnancyapp.PregApplication
 import com.example.pregnancyapp.questionnaire.QuestionnaireData
 import kotlinx.coroutines.Dispatchers
@@ -26,16 +25,26 @@ object AuthService {
         // For example, check if currentUser is not null or if there's a valid authentication token
         return currentUser != null
     }
+
     suspend fun loginUser(email: String, password: String): Boolean {
         return withContext(Dispatchers.IO) {
             val user = userDao.loginUser(email, password)
             if (user != null) {
+                currentUser = user  // Update the currentUser variable
                 println("Login successful for user: $user")
                 true
             } else {
                 println("Login failed. User not found.")
                 false
             }
+        }
+    }
+
+    suspend fun isUserNewlyRegistered(email: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            // Check if the user with the given email is newly registered
+            val user = userDao.getCurrentUser(email)
+            user?.questionnaireData == null
         }
     }
 
@@ -49,6 +58,35 @@ object AuthService {
                     height = questionnaireData.height
                 )
                 userDao.updateUser(updatedUser)
+                true // Update successful
+            } catch (e: Exception) {
+                println("Error during updating user with questionnaire data: ${e.message}")
+                false // Update failed
+            }
+        }
+    }
+
+    suspend fun updatePregnancyNumber(user: User, pregNumber: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                user.numOfPregnancies = pregNumber
+                userDao.updateUser(user)
+                println("Update successful")
+                true // Update successful
+            } catch (e: Exception) {
+                println("Error during updating pregnancy number: ${e.message}")
+                false // Update failed
+            }
+        }
+    }
+
+    suspend fun updateFailedPregnancyNumber(user: User, failedPregNumber:
+    String):
+            Boolean{
+        return withContext(Dispatchers.IO) {
+            try {
+                user.numOfFailedPregnancies = failedPregNumber
+                userDao.updateUser(user)
                 true // Update successful
             } catch (e: Exception) {
                 println("Error during updating user with questionnaire data: ${e.message}")
@@ -79,6 +117,17 @@ object AuthService {
                 println("Error during registration: ${e.message}")
                 e.printStackTrace() // Print stack trace for more details
                 false // User already exists or registration failed
+            }
+        }
+    }
+
+    suspend fun updateUserWithSelectedConditions(user: User) {
+        withContext(Dispatchers.IO) {
+            try {
+                userDao.updateUserSelectedConditions(user)
+                println("Update successful with selected conditions")
+            } catch (e: Exception) {
+                println("Error during updating user with selected conditions: ${e.message}")
             }
         }
     }

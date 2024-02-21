@@ -70,12 +70,14 @@ fun LoginPage(navController: NavController) {
                     // Call the loginUser function from a coroutine
                     coroutineScope.launch {
                         val loginSuccessful = AuthService.loginUser(email, password)
+                        val currUser = AuthService.getCurrentUser()
 
-                        if (loginSuccessful) {
-                            navController.navigate("mommyquestionnairepage")
-                        } else {
-                            // Show login failed message or handle accordingly
-                            // TODO: Handle login failed error
+                        if (currUser != null) {
+                            if (currUser.height == null) {
+                                navController.navigate("mommyquestionnairepage")
+                            } else {
+                                navController.navigate("welcome")
+                            }
                         }
                     }
                 }

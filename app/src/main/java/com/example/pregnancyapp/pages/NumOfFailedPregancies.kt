@@ -20,9 +20,10 @@ import com.example.pregnancyapp.R
 import com.example.pregnancyapp.ButtonComponentCustomColor
 import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableTextCentered
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 @Composable
-fun NumOfFailedPregnancies(navController: NavController) {
+fun NumOfFailedPregnancies(navController: NavController, authViewModel: AuthViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -32,14 +33,14 @@ fun NumOfFailedPregnancies(navController: NavController) {
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
-                    top = 40.dp,
+                    top = 20.dp,
                     bottom = 0.dp
                 ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ReusableTextCentered(
-                text = "Have you pregnancies have you had?",
+                text = "How many failed pregnancies have you had?",
                 MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Light,
                 color = Color.Black
@@ -52,30 +53,42 @@ fun NumOfFailedPregnancies(navController: NavController) {
 
             ButtonComponentCustomColor(
                 value = "1",
-                onClick = { },
+                onClick = {
+                    authViewModel.handleNumOfFailedPregnanciesQuestion("1")
+                    navController.navigate("medicalconditions")},
                 Color
                 (0xFFFFFCF6),
                 Color.Black)
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ButtonComponentCustomColor(value = "2", onClick = { /* your action
-            for "No"
-             button */ }, Color(0xFFFFFCF6), Color.Black)
+            ButtonComponentCustomColor(
+                value = "2",
+                onClick = {
+                    authViewModel.handleNumOfFailedPregnanciesQuestion("2")
+                    navController.navigate("medicalconditions")},
+                Color(0xFFFFFCF6),
+                Color.Black)
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ButtonComponentCustomColor(value = "3", onClick = { /* your action
-            for "No"
-             button */ }, Color(0xFFFFFCF6), Color.Black)
+            ButtonComponentCustomColor(
+                value = "3",
+                onClick = {authViewModel
+                    .handleNumOfFailedPregnanciesQuestion("3")
+                    navController.navigate("medicalconditions")},
+                Color(0xFFFFFCF6),
+                Color.Black)
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ButtonComponentCustomColor(value = "more than 4", onClick = { /*
-            your
-            action
-            for "No"
-             button */ }, Color(0xFFFFFCF6), Color.Black)
+            ButtonComponentCustomColor(
+                value = "more than 4",
+                onClick = {
+                    authViewModel.handleNumOfFailedPregnanciesQuestion("<4")
+                    navController.navigate("medicalconditions")},
+                Color(0xFFFFFCF6),
+                Color.Black)
         }
     }
 }

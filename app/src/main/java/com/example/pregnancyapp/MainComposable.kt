@@ -7,19 +7,21 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import com.example.pregnancyapp.pages.FailPregnancyQuestion
 import com.example.pregnancyapp.pages.FirstPregnancyQuestion
 import com.example.pregnancyapp.pages.LoginPage
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import com.example.pregnancyapp.pages.NumOfFailedPregnancies
 import com.example.pregnancyapp.pages.NumOfPregnancies
+import com.example.pregnancyapp.pages.PreExistingMedConditions
 import com.example.pregnancyapp.pages.SignUpPage
 import com.example.pregnancyapp.pages.WelcomePage
 
 
 // MainComposable.kt
 @Composable
-fun MainComposable() {
+fun MainComposable(authViewModel: AuthViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "login") {
@@ -27,12 +29,14 @@ fun MainComposable() {
         addLoginPage(navController)
         addSignUpPage(navController)
         addMommyQuestionnairePage(navController)
-        addNumOfPregnanciesQuestion(navController)
-        addNumOfPregnanciesAnswer(navController)
-        addFailedPregnanciesQuestion(navController)
-        addFailedPregnanciesAnswer(navController)
+        addNumOfPregnanciesQuestion(navController, authViewModel)
+        addFailedPregnanciesQuestion(navController, authViewModel)
+        addNumOfPregnanciesAnswer(navController, authViewModel)
+        addFailedPregnanciesAnswer(navController, authViewModel)
+        addPrevMedicalConditionsQuestion(navController, authViewModel)
     }
 }
+
 
 fun NavGraphBuilder.addWelcomePage(navController: NavController) {
     composable("welcome") {
@@ -52,32 +56,53 @@ fun NavGraphBuilder.addSignUpPage(navController: NavController) {
     }
 }
 
-fun NavGraphBuilder.addMommyQuestionnairePage(navController: NavController) {
+fun NavGraphBuilder.addMommyQuestionnairePage(
+    navController: NavController
+) {
     composable("mommyquestionnairepage") {
         MommyQuestionnairePage(navController)
     }
 }
 
-fun NavGraphBuilder.addNumOfPregnanciesQuestion(navController: NavController) {
+fun NavGraphBuilder.addNumOfPregnanciesQuestion(
+    navController: NavController, authViewModel: AuthViewModel
+) {
     composable("questionpregnancynumber") {
-        FirstPregnancyQuestion(navController)
+        FirstPregnancyQuestion(navController, authViewModel)
     }
 }
 
-fun NavGraphBuilder.addNumOfPregnanciesAnswer(navController: NavController) {
-    composable("pregnancynumber") {
-        NumOfPregnancies(navController)
-    }
-}
-
-fun NavGraphBuilder.addFailedPregnanciesQuestion(navController: NavController) {
+fun NavGraphBuilder.addFailedPregnanciesQuestion(
+    navController: NavController, authViewModel: AuthViewModel
+) {
     composable("questionfailedpregnancies") {
-        FailPregnancyQuestion(navController)
+        FailPregnancyQuestion(navController, authViewModel)
     }
 }
 
-fun NavGraphBuilder.addFailedPregnanciesAnswer(navController: NavController) {
+fun NavGraphBuilder.addNumOfPregnanciesAnswer(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
+    composable("pregnancynumber") {
+        NumOfPregnancies(navController, authViewModel)
+    }
+}
+
+fun NavGraphBuilder.addFailedPregnanciesAnswer(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
     composable("failnumber") {
-        NumOfFailedPregnancies(navController)
+        NumOfFailedPregnancies(navController, authViewModel)
+    }
+}
+
+fun NavGraphBuilder.addPrevMedicalConditionsQuestion(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
+    composable("medicalconditions") {
+        PreExistingMedConditions(navController, authViewModel)
     }
 }

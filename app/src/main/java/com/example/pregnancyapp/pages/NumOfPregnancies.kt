@@ -20,9 +20,10 @@ import com.example.pregnancyapp.R
 import com.example.pregnancyapp.ButtonComponentCustomColor
 import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableTextCentered
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 @Composable
-fun NumOfPregnancies(navController: NavController) {
+fun NumOfPregnancies(navController: NavController, authViewModel: AuthViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -32,14 +33,14 @@ fun NumOfPregnancies(navController: NavController) {
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
-                    top = 50.dp,
+                    top = 40.dp,
                     bottom = 0.dp
                 ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ReusableTextCentered(
-                text = "Have you pregnancies have you had?",
+                text = "How many pregnancies have you had?",
                 MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Light,
                 color = Color.Black
@@ -52,7 +53,9 @@ fun NumOfPregnancies(navController: NavController) {
 
             ButtonComponentCustomColor(
                 value = "1",
-                onClick = {navController.navigate("questionfailedpregnancies")},
+                onClick = {
+                    authViewModel.handleNumOfPregnanciesQuestion("1")
+                    navController.navigate("questionfailedpregnancies")},
                 Color(0xFFFFFCF6),
                 Color.Black)
 
@@ -60,7 +63,9 @@ fun NumOfPregnancies(navController: NavController) {
 
             ButtonComponentCustomColor(
                 value = "2",
-                onClick = {navController.navigate("questionfailedpregnancies")},
+                onClick = {
+                    authViewModel.handleNumOfPregnanciesQuestion("2")
+                    navController.navigate("questionfailedpregnancies")},
                 Color(0xFFFFFCF6),
                 Color.Black)
 
@@ -68,7 +73,9 @@ fun NumOfPregnancies(navController: NavController) {
 
             ButtonComponentCustomColor(
                 value = "3",
-                onClick = {navController.navigate("questionfailedpregnancies")},
+                onClick = {
+                    authViewModel.handleNumOfPregnanciesQuestion("3")
+                    navController.navigate("questionfailedpregnancies")},
                 Color(0xFFFFFCF6),
                 Color.Black)
 
@@ -76,7 +83,9 @@ fun NumOfPregnancies(navController: NavController) {
 
             ButtonComponentCustomColor(
                 value = "more than 4",
-                onClick = {navController.navigate("questionfailedpregnancies")},
+                onClick = {
+                    authViewModel.handleNumOfPregnanciesQuestion("<4")
+                    navController.navigate("questionfailedpregnancies")},
                 Color(0xFFFFFCF6),
                 Color.Black)
         }

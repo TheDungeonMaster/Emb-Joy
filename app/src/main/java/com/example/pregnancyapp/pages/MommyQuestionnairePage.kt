@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,20 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.example.pregnancyapp.NormalTextComponent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.pregnancyapp.ButtonComponentCustomColor
 import com.example.pregnancyapp.CustomWhiteTextField
 import com.example.pregnancyapp.ReusableText
-import com.example.pregnancyapp.SimpleWhiteTextField
-import com.example.pregnancyapp.authentication_logic.AuthService
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import com.example.pregnancyapp.questionnaire.QuestionnaireData
 
 
 @Composable
@@ -134,7 +125,6 @@ fun MommyQuestionnairePage(navController: NavController, authViewModel: AuthView
             ButtonComponentCustomColor(
                 value = "SUBMIT",
                 onClick = {
-                    // Call a function in the ViewModel to handle the logic
                     authViewModel.onSubmitButtonClicked(
                         nameSurname,
                         dayOfPregnancy,

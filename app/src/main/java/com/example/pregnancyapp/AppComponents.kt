@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pregnancyapp.pages.CheckUpQuestions
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
+import kotlinx.coroutines.launch
 
 @Composable
 fun HeadingTextComponent(value: String){
@@ -424,28 +425,35 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 }
 
 @Composable
-fun ButtonComponentCustomColor(value: String,  onClick: () -> Unit, color:
-Color, textColor: Color) {
-
+fun ButtonComponentCustomColor(
+    value: String,
+    onClick: () -> Unit,
+    color: Color,
+    textColor: Color,
+    enabled: Boolean = true // Added enabled parameter with default value
+) {
     val coroutineScope = rememberCoroutineScope()
     val isClicked = remember { mutableStateOf(false) }
     val buttonColor = if (isClicked.value) Color(0xFF75BFCB) else textColor
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
-
     ) {
         ElevatedButton(
-            modifier = Modifier
-            ,
+            modifier = Modifier,
             contentPadding = PaddingValues(),
-            onClick = onClick,
-
+            onClick = {
+                if (enabled) {
+                    coroutineScope.launch {
+                        isClicked.value = true
+                        onClick()
+                    }
+                }
+            },
+            enabled = enabled, // Enable/disable the button
             colors = ButtonDefaults.buttonColors(Color.Transparent)
         ) {
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -456,13 +464,14 @@ Color, textColor: Color) {
                 Text(
                     text = value,
                     fontSize = 18.sp,
-                    color = textColor,
+                    color = buttonColor, // Use buttonColor instead of textColor
                     fontWeight = FontWeight.Bold
                 )
             }
         }
     }
 }
+
 
 @Composable
 fun BooleanButtonComponent(value: String,  onClick: () -> Unit, color:

@@ -1,5 +1,7 @@
 package com.example.pregnancyapp.authentication_logic
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -17,29 +19,32 @@ class AuthViewModel : ViewModel() {
     fun onSubmitButtonClicked(
         nameSurname: String,
         dayOfPregnancy: String,
-        weight: String,
-        height: String,
+        weight: String?,
+        height: String?,
         navController: NavController
     ) {
         viewModelScope.launch {
             // Retrieve the current user
-            val currentUser = getCurrentUser()
+            val currentUser = AuthService.getCurrentUser()
+            if (currentUser != null) {
+                AuthService.loginUser(currentUser.email, currentUser.password)
+                Log.i(currentUser.email, "Email of the current user")
+            }
 
             // Check if the user is logged in
             if (currentUser != null) {
-                // Create a QuestionnaireData object
+                Log.i(TAG, "Not null")
+
                 val questionnaireData = QuestionnaireData(
                     nameSurname = nameSurname,
                     dayOfPregnancy = dayOfPregnancy,
                     weight = weight,
                     height = height
-                    // Add other fields as needed
                 )
 
-                // Update the user with the attached QuestionnaireData
-                val updateSuccessful = updateUserWithQuestionnaireData(
-                    currentUser = currentUser,
-                    questionnaireData = questionnaireData
+                val updateSuccessful = AuthService.updateUserWithQuestionnaireData(
+                    currentUser,
+                    questionnaireData
                 )
 
                 if (updateSuccessful) {
@@ -58,12 +63,8 @@ class AuthViewModel : ViewModel() {
             }
         }
     }
-    suspend fun getCurrentUser(): User? {
-        return withContext(Dispatchers.IO) {
-            // Retrieve the current user from your data source (e.g., database)
-            // You might need to adjust this part based on your actual data source
-            userDao.getCurrentUser()
-        }
+    suspend fun getCurrentUser() {
+        AuthService.getCurrentUser()
     }
 
     suspend fun updateUserWithQuestionnaireData(
@@ -72,8 +73,9 @@ class AuthViewModel : ViewModel() {
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
+                // Set the questionnaireData field
+                currentUser.questionnaireData = questionnaireData
                 // Update the user with questionnaire data within a coroutine
-                currentUser.questionnaireData = questionnaireData  // Set the questionnaire data
                 userDao.updateUserWithQuestionnaireData(currentUser)
                 true // Update successful
             } catch (e: Exception) {
@@ -91,25 +93,64 @@ class AuthViewModel : ViewModel() {
         val registrationSuccessful = AuthService.registerUser(newUser)
 
         if (registrationSuccessful) {
-            // Fetch questionnaire data for the user
-            val loggedInUser =
-                userDao.loginUser(email, password) // Retrieve user
-            val questionnaireData = loadQuestionnaireDataForUser(loggedInUser!!)
+            // Check if the user is newly registered
+            val isNewlyRegistered = AuthService.isUserNewlyRegistered(email)
 
-            // Update user with questionnaireData
-            AuthService.updateUserWithQuestionnaireData(
-                loggedInUser,
-                questionnaireData
-            )
+            if (isNewlyRegistered) {
+                // Fetch questionnaire data for the user
+                val loggedInUser = userDao.loginUser(email, password) // Retrieve user
+                val questionnaireData = loadQuestionnaireDataForUser(loggedInUser!!)
+
+                // Update user with questionnaireData
+                AuthService.updateUserWithQuestionnaireData(
+                    loggedInUser,
+                    questionnaireData
+                )
+            }
         }
 
         return registrationSuccessful
     }
 
 
+    // PREV. PREGNANCIES NUMBER /////////
+
+    fun handleNumOfPregnanciesQuestion(pregNum: String) {
+        viewModelScope.launch {
+            handleNumOfPregnanciesSelection(pregNum)
+        }
+    }
+
+
+    suspend fun handleNumOfPregnanciesSelection(pregnancyNumber: String) {
+        val user = AuthService.getCurrentUser()
+
+        if (user != null) {
+           // user.numOfPregnancies = pregnancyNumber
+            userDao.updatePregnancyNumberDAO(user.email, pregnancyNumber)
+        }
+    }
+
+
+    // FAILED PREGNANCIES/////////
+    fun handleNumOfFailedPregnanciesQuestion(failNum:
+                                              String) {
+        viewModelScope.launch{
+            handleNumOfFailedPregnanciesSelection(failNum)
+        }
+    }
+
+    suspend fun handleNumOfFailedPregnanciesSelection(failedNumber:
+    String) {
+        val user = AuthService.getCurrentUser()
+
+        if (user != null) {
+            //user.numOfFailedPregnancies = failedNumber
+            userDao.updateFailedPregnancyNumberDAO(user.email, failedNumber)
+        }
+    }
+
     private suspend fun loadQuestionnaireDataForUser(user: User): QuestionnaireData {
-        // Implement logic to load questionnaire data for the user
-        // You may fetch this data from the database or any other source
         return QuestionnaireData(
             nameSurname = user.nameSurname,
             dayOfPregnancy = user.dayOfPregnancy,
@@ -118,5 +159,42 @@ class AuthViewModel : ViewModel() {
             // Add other questionnaire fields as needed
         )
     }
+
+
+
+    // MEDICAL CONDITIONS
+
+
+    fun handleSelectedMedicalConditions(medicalCondition: String) {
+        viewModelScope.launch {
+            val currentUser = AuthService.getCurrentUser()
+            if (currentUser != null) {
+                // Update the user with the selected condition
+                currentUser.apply {
+                    when (medicalCondition) {
+                        "diabetes" -> hasDiabetes = true
+                        "highBloodPressure" -> hasHighBloodPressure = true
+                        "asthma" -> hasAsthma = true
+                        "fertilityIssues" -> hasFertilityIssues = true
+                        "mentalHealthConditions" -> hasMentalHealthConditions = true
+                        "obesity" -> hasObesity = true
+                        "otherCondition" -> hasOtherCondition = true
+                        // Handle other conditions if needed
+                    }
+                    userDao.updateMedicalCondition(
+                        email,
+                        hasDiabetes,
+                        hasHighBloodPressure,
+                        hasAsthma,
+                        hasFertilityIssues,
+                        hasMentalHealthConditions,
+                        hasObesity,
+                        hasOtherCondition
+                    )
+                }
+            }
+        }
+    }
+
 
 }

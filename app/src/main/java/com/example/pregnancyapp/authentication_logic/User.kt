@@ -1,8 +1,10 @@
 package com.example.pregnancyapp.authentication_logic
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.example.pregnancyapp.questionnaire.QuestionnaireData
 
 // User.kt
@@ -14,7 +16,17 @@ data class User(
     var dayOfPregnancy: String? = null,
     var weight: String? = null,
     var height: String? = null,
-    @Embedded(prefix = "questionnaire_")
-    var questionnaireData: QuestionnaireData? = null
-)
+    var numOfPregnancies: String? = null,
+    var numOfFailedPregnancies: String? = null,
+    var hasDiabetes: Boolean = false,
+    var hasHighBloodPressure: Boolean = false,
+    var hasAsthma: Boolean = false,
+    var hasFertilityIssues: Boolean = false,
+    var hasMentalHealthConditions: Boolean = false,
+    var hasObesity: Boolean = false,
+    var hasOtherCondition: Boolean = false,
 
+    @Embedded(prefix = "questionnaire_")
+    var questionnaireData: QuestionnaireData? = null,
+
+)
