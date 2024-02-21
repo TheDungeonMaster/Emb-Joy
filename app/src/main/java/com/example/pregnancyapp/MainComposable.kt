@@ -25,7 +25,7 @@ fun MainComposable(authViewModel: AuthViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "login") {
-        addWelcomePage(navController)
+        addWelcomePage(navController, authViewModel)
         addLoginPage(navController)
         addSignUpPage(navController)
         addMommyQuestionnairePage(navController)
@@ -38,9 +38,9 @@ fun MainComposable(authViewModel: AuthViewModel) {
 }
 
 
-fun NavGraphBuilder.addWelcomePage(navController: NavController) {
+fun NavGraphBuilder.addWelcomePage(navController: NavController, authViewModel: AuthViewModel) {
     composable("welcome") {
-        WelcomePage()
+        WelcomePage(authViewModel)
     }
 }
 

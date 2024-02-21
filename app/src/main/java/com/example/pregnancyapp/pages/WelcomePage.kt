@@ -20,10 +20,11 @@ import com.example.pregnancyapp.R
 import com.example.pregnancyapp.CircleShapeComponent
 import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableText
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 
 @Composable
-fun WelcomePage(){
+fun WelcomePage(authViewModel: AuthViewModel){
     Column (
         modifier = Modifier
             .fillMaxSize().
@@ -55,14 +56,9 @@ fun WelcomePage(){
                 .padding(30.dp),
             verticalArrangement = Arrangement.Top
         ){
-            CircleShapeComponent()
+            CircleShapeComponent(authViewModel)
 
         }
     }
 }
 
-@Preview
-@Composable
-fun DefaultPreviewOfWelcomePage(){
-    WelcomePage()
-}

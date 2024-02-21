@@ -1,6 +1,7 @@
 package com.example.pregnancyapp
 
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.background
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,12 +39,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -57,7 +61,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
+import androidx.compose.ui.text.font.FontWeight.Companion.Thin
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -66,6 +72,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pregnancyapp.authentication_logic.AuthService
+import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import com.example.pregnancyapp.pages.CheckUpQuestions
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import kotlinx.coroutines.launch
@@ -250,15 +259,30 @@ fun CustomWhiteTextField(
 
 
 
+fun convertDaysToWeeksAndDays(days: Int): String {
+    if (days < 0) {
+        return "Invalid input"
+    }
 
+    val weeks = days / 7
+    val remainingDays = days % 7
+
+    return when {
+        weeks > 0 && remainingDays > 0 -> "$weeks weeks $remainingDays days"
+        weeks > 0 -> "$weeks weeks"
+        remainingDays > 0 -> "$remainingDays days"
+        else -> "0 days" // Handle the case when days is 0
+    }
+}
 
 
 @Composable
-fun CircleShapeComponent() {
+fun CircleShapeComponent(authViewModel: AuthViewModel) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.65f)
+            .fillMaxHeight(0.6f)
             .background(
                 Color(android.graphics.Color.parseColor("#64BCB9")),
                 shape = CircleShape
@@ -269,14 +293,39 @@ fun CircleShapeComponent() {
             scaleSize = 2.5f, 20)
 
 
-        ReusableText(
-            text = "6 weeks 1 day", MaterialTheme.typography
-                .headlineMedium, Bold, Color.White, Modifier.padding(start = 10.dp)
-        )
-        ReusableText(
-            text = "237 days left", MaterialTheme.typography
-                .headlineMedium, Normal, Color.White, Modifier.padding(start = 10.dp)
-        )
+        if(AuthService.getCurrentUser()?.dayOfPregnancy?.toInt()==null){
+            Log.i(TAG, "it is null")
+        } else {
+            Log.i(TAG, "it is NOT null")
+        }
+
+        val pregnancyDays = AuthService.getCurrentUser()?.dayOfPregnancy?.toInt()
+
+        val pregnancyDaysLeft = 280 - pregnancyDays!!
+
+        val weekDayNotation = convertDaysToWeeksAndDays(pregnancyDays)
+
+        Column(
+
+        ){ Spacer(modifier = Modifier.height(230.dp))
+            ReusableText(
+                    text = weekDayNotation, MaterialTheme.typography
+                        .headlineMedium, ExtraBold, Color.White, Modifier.padding
+                        (start = 10.dp)
+                )
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ){
+                ReusableText(
+                    text = "$pregnancyDaysLeft days left", MaterialTheme
+                        .typography
+                        .headlineSmall, Normal,
+                    Color.White, Modifier.padding(start = 10
+                            .dp)
+                )
+            }
+        }
+
 
     }
 }
