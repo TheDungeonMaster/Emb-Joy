@@ -1,6 +1,7 @@
 package com.example.pregnancyapp
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHost
@@ -17,15 +18,17 @@ import com.example.pregnancyapp.pages.NumOfPregnancies
 import com.example.pregnancyapp.pages.PreExistingMedConditions
 import com.example.pregnancyapp.pages.SignUpPage
 import com.example.pregnancyapp.pages.WelcomePage
+import com.example.pregnancyapp.pages.WelcomePageViewModel
 
 
 // MainComposable.kt
 @Composable
 fun MainComposable(authViewModel: AuthViewModel) {
     val navController = rememberNavController()
+    val viewModel: WelcomePageViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "login") {
-        addWelcomePage(navController, authViewModel)
+        addWelcomePage(navController, authViewModel, viewModel)
         addLoginPage(navController)
         addSignUpPage(navController)
         addMommyQuestionnairePage(navController)
@@ -38,9 +41,9 @@ fun MainComposable(authViewModel: AuthViewModel) {
 }
 
 
-fun NavGraphBuilder.addWelcomePage(navController: NavController, authViewModel: AuthViewModel) {
+fun NavGraphBuilder.addWelcomePage(navController: NavController, authViewModel: AuthViewModel, viewModel: WelcomePageViewModel) {
     composable("welcome") {
-        WelcomePage(authViewModel)
+        WelcomePage(authViewModel, viewModel)
     }
 }
 

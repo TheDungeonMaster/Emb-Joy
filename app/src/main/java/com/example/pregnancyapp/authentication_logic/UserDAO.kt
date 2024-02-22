@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
 import com.example.pregnancyapp.questionnaire.QuestionnaireData
+import kotlinx.coroutines.flow.Flow
 
 // UserDao.kt
 @Dao
@@ -26,6 +27,10 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     suspend fun getCurrentUser(email: String): User?
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    fun getCurrentUserFlow(email: String): Flow<User>
+
 
 
     // Use @Update to update the embedded field directly

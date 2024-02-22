@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.CircleShapeComponent
@@ -24,11 +24,15 @@ import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 
 @Composable
-fun WelcomePage(authViewModel: AuthViewModel){
+fun WelcomePage(authViewModel: AuthViewModel, viewModel: WelcomePageViewModel){
+
+    val user = viewModel.user.collectAsState()
+    viewModel.getUserData()
+
     Column (
         modifier = Modifier
-            .fillMaxSize().
-            background(Color.White)
+            .fillMaxSize()
+            .background(Color.White)
             .padding(bottom = 20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -56,7 +60,7 @@ fun WelcomePage(authViewModel: AuthViewModel){
                 .padding(30.dp),
             verticalArrangement = Arrangement.Top
         ){
-            CircleShapeComponent(authViewModel)
+            CircleShapeComponent(authViewModel, user.value)
 
         }
     }

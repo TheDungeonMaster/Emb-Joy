@@ -69,7 +69,8 @@ fun LoginPage(navController: NavController) {
                 } else {
                     // Call the loginUser function from a coroutine
                     coroutineScope.launch {
-                        val loginSuccessful = AuthService.loginUser(email, password)
+                        AuthService.loginUser(email, password)
+                        AuthService.userEmail = email
                         val currUser = AuthService.getCurrentUser()
 
                         if (currUser != null) {

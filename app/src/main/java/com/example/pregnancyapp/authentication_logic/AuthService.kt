@@ -10,6 +10,7 @@ object AuthService {
     private val userDao = PregApplication.getInstance().userDatabase.userDao()
 
     private var currentUser: User? = null
+    var userEmail: String = ""
 
     // Function to retrieve the current user
     fun getCurrentUser(): User? {
@@ -32,6 +33,8 @@ object AuthService {
             if (user != null) {
                 currentUser = user  // Update the currentUser variable
                 println("Login successful for user: $user")
+                userEmail = user.email
+                println("Session Active for user: $userEmail")
                 true
             } else {
                 println("Login failed. User not found.")

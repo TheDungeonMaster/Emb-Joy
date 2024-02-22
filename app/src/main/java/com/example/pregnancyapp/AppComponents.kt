@@ -75,6 +75,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
+import com.example.pregnancyapp.authentication_logic.User
 import com.example.pregnancyapp.pages.CheckUpQuestions
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import kotlinx.coroutines.launch
@@ -277,7 +278,7 @@ fun convertDaysToWeeksAndDays(days: Int): String {
 
 
 @Composable
-fun CircleShapeComponent(authViewModel: AuthViewModel) {
+fun CircleShapeComponent(authViewModel: AuthViewModel, user: User) {
 
     Box(
         modifier = Modifier
@@ -299,11 +300,11 @@ fun CircleShapeComponent(authViewModel: AuthViewModel) {
             Log.i(TAG, "it is NOT null")
         }
 
-        val pregnancyDays = AuthService.getCurrentUser()?.dayOfPregnancy?.toInt()
+        val pregnancyDays = user.dayOfPregnancy?.toInt()
 
-        val pregnancyDaysLeft = 280 - pregnancyDays!!
+        val pregnancyDaysLeft = 280 - (pregnancyDays ?: 0)
 
-        val weekDayNotation = convertDaysToWeeksAndDays(pregnancyDays)
+        val weekDayNotation = convertDaysToWeeksAndDays(pregnancyDays ?: 0)
 
         Column(
 
