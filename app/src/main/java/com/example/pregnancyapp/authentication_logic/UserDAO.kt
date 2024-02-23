@@ -7,14 +7,24 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
+import com.example.pregnancyapp.authentication_logic.relations.UserAndJournal
 import com.example.pregnancyapp.questionnaire.QuestionnaireData
 import kotlinx.coroutines.flow.Flow
+
 
 // UserDao.kt
 @Dao
 interface UserDao {
     @Insert
     suspend fun insert(user: User)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertJournal(journal: Journal)
+
+
+    @Query("SELECT * FROM Journal WHERE date = :date AND email = :email LIMIT 1")
+     fun getJournalWithQuestionnaire(date: String, email: String): Flow<Journal?>
+
 
     @Query("SELECT * FROM users WHERE email = :email AND password = :password")
     suspend fun loginUser(email: String, password: String): User?
@@ -71,5 +81,7 @@ interface UserDao {
         hasObesity: Boolean,
         hasOtherCondition: Boolean
     )
+
+
 }
 

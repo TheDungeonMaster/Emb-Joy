@@ -1,6 +1,8 @@
 package com.example.pregnancyapp.calendar
 
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pregnancyapp.pages.WelcomePageViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -41,8 +44,9 @@ fun Calendar(
     modifier: Modifier = Modifier,
 
     ) {
-    val dataSource: CalendarDataSource = viewModel()
-    var calendarUiModel by dataSource.calendarUiModel
+
+    val viewModel: WelcomePageViewModel = viewModel()
+    var calendarUiModel by viewModel.calendarUiModel
 
 
 
@@ -58,7 +62,7 @@ fun Calendar(
                 // refresh the CalendarUiModel with new data
                 // by get data with new Start Date (which is the startDate-1 from the visibleDates)
                 val finalStartDate = startDate.minusDays(1)
-                calendarUiModel = dataSource.getData(
+                calendarUiModel = viewModel.getData(
                     startDate = finalStartDate ,
                     lastSelectedDate = calendarUiModel.selectedDate.date
                 )
@@ -67,13 +71,13 @@ fun Calendar(
                 // refresh the CalendarUiModel with new data
                 // by get data with new Start Date (which is the endDate+2 from the visibleDates)
                 val finalStartDate = endDate.plusDays(2)
-                calendarUiModel = dataSource.getData(
+                calendarUiModel = viewModel.getData(
                     startDate = finalStartDate ,
                     lastSelectedDate = calendarUiModel.selectedDate.date
                 )
             }
         )
-        Content(data = calendarUiModel , onDateClickListener = { date ->
+        Content(data = calendarUiModel, viewModel = viewModel, onDateClickListener = { date ->
             // refresh the CalendarUiModel with new data
             // by changing only the `selectedDate` with the date selected by User
             calendarUiModel = calendarUiModel.copy(
@@ -134,13 +138,14 @@ fun Header(
 @Composable
 fun ContentItem(
     date: CalendarUiModel.Date ,
-    onClickListener: (CalendarUiModel.Date) -> Unit
+    onClickListener: (CalendarUiModel.Date) -> Unit,
 ) {
     Card(
         modifier = Modifier
             .padding(vertical = 4.dp , horizontal = 4.dp)
             .clickable { // making the element clickable, by adding 'clickable' modifier
                 onClickListener(date)
+
             } ,
         colors = CardDefaults.cardColors(
             // background colors of the selected date
@@ -177,12 +182,22 @@ fun ContentItem(
 fun Content(
     data: CalendarUiModel ,
     onDateClickListener: (CalendarUiModel.Date) -> Unit ,
+    viewModel: WelcomePageViewModel,
     modifier: Modifier = Modifier
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally){
         LazyRow {
             items(items = data.visibleDates) { date ->
-                ContentItem(date , onDateClickListener)
+                ContentItem(date) {
+                    // Format the selected date to "dd.MM.yy"
+                    val formattedDate = date.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
+                    // Call getJournalData with the formatted date
+                    viewModel.getJournalData(formattedDate)
+                    Log.d(TAG, "getting journal data for $formattedDate")
+
+                    // Notify the rest of the UI that a new date has been selected
+                    onDateClickListener(date)
+                }
             }
         }
     }

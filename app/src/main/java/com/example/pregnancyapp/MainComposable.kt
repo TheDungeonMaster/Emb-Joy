@@ -47,9 +47,11 @@ fun NavGraphBuilder.addWelcomePage(navController: NavController) {
     composable("welcome") {
         val viewModel: WelcomePageViewModel = viewModel()
         viewModel.getUserData()
+        viewModel.getJournalData("23.02.24")
         WelcomePage(
             viewModel.user.value.dayOfPregnancy?.toInt() ?: 0 ,
-            viewModel.toWeekDay()
+            viewModel.toWeekDay(),
+            viewModel = viewModel
         )
     }
 }

@@ -10,7 +10,8 @@ import com.example.pregnancyapp.questionnaire.QuestionnaireData
 // User.kt
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey val email: String,
+    @PrimaryKey(autoGenerate = false)
+    val email: String,
     val password: String,
     var nameSurname: String? = null,
     var dayOfPregnancy: String? = null,
