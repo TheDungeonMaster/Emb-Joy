@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pregnancyapp.PregApplication
 import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.User
+import com.example.pregnancyapp.convertDaysToWeeksAndDays
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,5 +31,9 @@ class WelcomePageViewModel : ViewModel() {
                 _user.value = it
             }
         }
+    }
+
+    fun toWeekDay(): String {
+        return convertDaysToWeeksAndDays(_user.value.dayOfPregnancy?.toInt() ?: 0)
     }
 }

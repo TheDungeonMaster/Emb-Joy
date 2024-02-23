@@ -277,61 +277,6 @@ fun convertDaysToWeeksAndDays(days: Int): String {
 }
 
 
-@Composable
-fun CircleShapeComponent(authViewModel: AuthViewModel, user: User) {
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.6f)
-            .background(
-                Color(android.graphics.Color.parseColor("#64BCB9")),
-                shape = CircleShape
-            ),
-        contentAlignment = Alignment.Center // Center the content inside the Box
-    ) {
-        ReusableIcon(iconResourceId = R.drawable.baby_embryo, iconSize = 130,
-            scaleSize = 2.5f, 20)
-
-
-        if(AuthService.getCurrentUser()?.dayOfPregnancy?.toInt()==null){
-            Log.i(TAG, "it is null")
-        } else {
-            Log.i(TAG, "it is NOT null")
-        }
-
-        val pregnancyDays = user.dayOfPregnancy?.toInt()
-
-        val pregnancyDaysLeft = 280 - (pregnancyDays ?: 0)
-
-        val weekDayNotation = convertDaysToWeeksAndDays(pregnancyDays ?: 0)
-
-        Column(
-
-        ){ Spacer(modifier = Modifier.height(230.dp))
-            ReusableText(
-                    text = weekDayNotation, MaterialTheme.typography
-                        .headlineMedium, ExtraBold, Color.White, Modifier.padding
-                        (start = 10.dp)
-                )
-            Row(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ){
-                ReusableText(
-                    text = "$pregnancyDaysLeft days left", MaterialTheme
-                        .typography
-                        .headlineSmall, Normal,
-                    Color.White, Modifier.padding(start = 10
-                            .dp)
-                )
-            }
-        }
-
-
-    }
-}
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
