@@ -59,21 +59,21 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextFieldCheckUpQuestion(
-                questionText = "How much do you weigh today?",
+                questionText = "How much do you weigh (kg) today?",
                 iconInt = R.drawable.weight_scale_logo,
                 onTextValueChange = { newValue -> viewModel.onWeightFieldChange(newValue) },
                 textValue = state.value.weightField
             )
             Spacer(modifier = Modifier.height(20.dp))
             TextFieldCheckUpQuestion(
-                "Please enter today's blood sugar " +
+                "Please enter today's blood sugar (mmol/L) " +
                         "readings", R.drawable.blood_sugar_logo,
                 onTextValueChange = { newValue -> viewModel.onBloodSugarChange(newValue) },
                 textValue = state.value.bloodSugar
             )
             Spacer(modifier = Modifier.height(20.dp))
             TextFieldCheckUpQuestion(
-                "Please enter today's blood pressure " +
+                "Please enter today's blood pressure (mmHg) " +
                         "readings.", R.drawable.blood_pressure_logo,
                 onTextValueChange = { newValue -> viewModel.onBloodPressureChange(newValue) },
                 textValue = state.value.bloodPressure

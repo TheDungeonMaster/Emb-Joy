@@ -1,5 +1,6 @@
 package com.example.pregnancyapp
 
+import android.media.tv.TvContract.Channels.Logo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -16,6 +17,7 @@ import com.example.pregnancyapp.pages.CheckUpQuestionsViewModel
 import com.example.pregnancyapp.pages.FailPregnancyQuestion
 import com.example.pregnancyapp.pages.FirstPregnancyQuestion
 import com.example.pregnancyapp.pages.LoginPage
+import com.example.pregnancyapp.pages.LogoWelcomePage
 import com.example.pregnancyapp.pages.MedicalData
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import com.example.pregnancyapp.pages.NumOfFailedPregnancies
@@ -35,7 +37,9 @@ fun MainComposable(authViewModel: AuthViewModel) {
     val navController = rememberNavController()
     val viewModel: WelcomePageViewModel = viewModel()
 
-    NavHost(navController = navController , startDestination = "login") {
+    NavHost(navController = navController , startDestination =
+    "logowelcomepage") {
+        addLogoWelcomePage(navController)
         addWelcomePage(navController)
         addLoginPage(navController)
         addSignUpPage(navController)
@@ -49,9 +53,17 @@ fun MainComposable(authViewModel: AuthViewModel) {
         addPersonalDataPage(navController, authViewModel)
         addMedicalDataPage(navController, authViewModel)
         addJournalPage(navController)
+
     }
 }
 
+fun NavGraphBuilder.addLogoWelcomePage(
+    navController: NavController
+) {
+    composable("logowelcomepage") {
+        LogoWelcomePage(navController = navController)
+    }
+}
 
 fun NavGraphBuilder.addWelcomePage(navController: NavController) {
     composable("welcome") {

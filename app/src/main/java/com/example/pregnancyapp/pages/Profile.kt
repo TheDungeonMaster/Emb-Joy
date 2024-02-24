@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -53,26 +54,25 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
         ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-
             Spacer(
                 modifier = Modifier
-                    .height(25.dp)
+                    .height(40.dp)
                     .padding()
             )
-
             Row(
                 modifier = Modifier,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .background(Color.LightGray, RoundedCornerShape(50.dp))
-                        .height(110.dp)
-                        .width(110.dp)
-                )
-                Spacer(modifier = Modifier.width(30.dp))
+
+                    ReusableIcon(
+                        iconResourceId = R.drawable.profile_pic,
+                        iconSize = 100,
+                        scaleSize = 1.2f,
+                        bottomPadding = 0
+                    )
+
+                Spacer(modifier = Modifier.width(50.dp))
                 ReusableText(
                     text = state.value.name,
                     textStyle = MaterialTheme.typography.headlineSmall,
@@ -83,7 +83,14 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
                         .size(40.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(50.dp))
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(4.dp),
+                color = Color.LightGray
+            )
+            Spacer(modifier = Modifier.height(50.dp))
 
             Row(
                 modifier = Modifier
@@ -100,7 +107,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
                 ReusableIcon(
                     iconResourceId = R.drawable.profile,
                     iconSize = 50,
-                    scaleSize = 1f,
+                    scaleSize = 2f,
                     bottomPadding = 0
                 )
                 Spacer(modifier = Modifier.width(40.dp))
@@ -130,7 +137,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
                 ReusableIcon(
                     iconResourceId = R.drawable.med_data,
                     iconSize = 50,
-                    scaleSize = 1f,
+                    scaleSize = 2f,
                     bottomPadding = 0
                 )
                 Spacer(modifier = Modifier.width(40.dp))
@@ -159,7 +166,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
                 ReusableIcon(
                     iconResourceId = R.drawable.settings_key,
                     iconSize = 50,
-                    scaleSize = 1f,
+                    scaleSize = 2f,
                     bottomPadding = 0
                 )
                 Spacer(modifier = Modifier.width(40.dp))

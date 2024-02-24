@@ -64,12 +64,15 @@ fun JournalScreen(
             modifier = Modifier
                 .padding(20.dp)
         ){
-            JournalEntry("Weight", R
+            JournalEntry("Weight (kg)", R
                 .drawable.weight_scale_logo, weight)
             Spacer(modifier = Modifier.height(20.dp))
-            JournalEntry("Blood sugar", R.drawable.blood_sugar_logo, bloodSugar)
+            JournalEntry("Blood sugar (mmol/L)", R.drawable.blood_sugar_logo,
+                bloodSugar)
             Spacer(modifier = Modifier.height(20.dp))
-            JournalEntry("Blood pressure", R.drawable.blood_pressure_logo, bloodPressure)
+            JournalEntry("Blood pressure (mmHg)", R.drawable
+                .blood_pressure_logo,
+                bloodPressure)
             Spacer(modifier = Modifier.height(20.dp))
             JournalBooleanEntries(
                 text = "Did you experience any swelling in your legs today?",
