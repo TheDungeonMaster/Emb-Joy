@@ -106,6 +106,7 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
                 textValue = state.value.mood.toString()
             )
 
+            Spacer(modifier = Modifier.height(20.dp))
 
             TextFieldCheckUpQuestion(
                 "Any other notes/comments?", R.drawable.blood_pressure_logo,
