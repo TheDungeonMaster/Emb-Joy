@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import com.example.pregnancyapp.authentication_logic.User
+import com.example.pregnancyapp.pages.CheckUpQuestions
+import com.example.pregnancyapp.pages.CheckUpQuestionsViewModel
 import com.example.pregnancyapp.pages.FailPregnancyQuestion
 import com.example.pregnancyapp.pages.FirstPregnancyQuestion
 import com.example.pregnancyapp.pages.LoginPage
@@ -39,6 +41,7 @@ fun MainComposable(authViewModel: AuthViewModel) {
         addNumOfPregnanciesAnswer(navController , authViewModel)
         addFailedPregnanciesAnswer(navController , authViewModel)
         addPrevMedicalConditionsQuestion(navController , authViewModel)
+        addJournalPage(navController)
     }
 }
 
@@ -47,14 +50,21 @@ fun NavGraphBuilder.addWelcomePage(navController: NavController) {
     composable("welcome") {
         val viewModel: WelcomePageViewModel = viewModel()
         viewModel.getUserData()
-        viewModel.getJournalData("23.02.24")
         WelcomePage(
             viewModel.user.value.dayOfPregnancy?.toInt() ?: 0 ,
             viewModel.toWeekDay(),
             viewModel = viewModel
-        )
+        ) { navController.navigate("journal") }
     }
 }
+
+fun NavGraphBuilder.addJournalPage(navController: NavController) {
+    composable("journal") {
+        val viewModel: CheckUpQuestionsViewModel = viewModel()
+        CheckUpQuestions(viewModel = viewModel, navController = navController)
+    }
+}
+
 
 fun NavGraphBuilder.addLoginPage(navController: NavController) {
     composable("login") {

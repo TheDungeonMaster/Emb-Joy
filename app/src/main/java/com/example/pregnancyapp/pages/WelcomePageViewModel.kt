@@ -36,71 +36,15 @@ class WelcomePageViewModel : ViewModel() {
     val journalData = _journalData.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            userDao.insertJournal(
-                journal = Journal(
-                    "24.02.24",
-                    "abc@mail.ru",
-                    "Abdi",
-                    "192",
-                    "290",
-                    "12990",
-                    "1adfs00/20sdf0",
-                    "500gfasram",
-                    false,
-                    false
-                )
-            )
-            userDao.insertJournal(
-                journal = Journal(
-                    "22.02.24",
-                    "abc@mail.ru",
-                    "Abdi",
-                    "192",
-                    "290",
-                    "12990",
-                    "100/200",
-                    "500gram",
-                    false,
-                    true
-                )
-            )
-            userDao.insertJournal(
-                journal = Journal(
-                    "21.02.24",
-                    "abc@mail.ru",
-                    "Abdi",
-                    "19232",
-                    "29023",
-                    "1299230",
-                    "10032/200",
-                    "530gram",
-                    true,
-                    true
-                )
-            )
-            userDao.insertJournal(
-                journal = Journal(
-                    "23.02.24",
-                    "abc@mail.ru",
-                    "Abdi",
-                    "19232",
-                    "29023",
-                    "1299230",
-                    "10asdf032/200",
-                    "530graasdfm",
-                    false,
-                    true
-                )
-            )
-        }
+        getUserData()
+
     }
 
     fun getJournalData(date: String) {
         viewModelScope.launch {
             userDao.getJournalWithQuestionnaire(date, AuthService.userEmail).collect {
                 _journalData.value =
-                    it ?: Journal("N/A", "${user.value.email}", "N/A", "N/A", "N/A", "N/A")
+                    it ?: Journal("N/A", user.value.email, "N/A", "N/A", "N/A", "N/A")
             }
         }
     }

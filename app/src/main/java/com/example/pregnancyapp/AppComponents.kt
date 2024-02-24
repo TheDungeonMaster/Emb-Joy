@@ -225,7 +225,9 @@ fun SimpleWhiteTextField(
             .background(backgroundColor) // Set the background color
             .padding(top = 10.dp, start = 16.dp, end = 16.dp) // Adjusted
             // padding
-            .height(60.dp)
+            .height(30.dp),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true
     )
 }
 
@@ -547,8 +549,8 @@ fun ButtonComponentConstColor(value: String,  onClick: () -> Unit) {
 }
 
 @Composable
-fun TextFieldCheckUpQuestion(questionText: String, iconInt: Int) {
-    var enteredText by remember { mutableStateOf("") }
+fun TextFieldCheckUpQuestion(questionText: String, iconInt: Int, onTextValueChange: (String) -> Unit, textValue: String) {
+
 
     Surface(
         modifier = Modifier
@@ -592,11 +594,12 @@ fun TextFieldCheckUpQuestion(questionText: String, iconInt: Int) {
                         Bold,
                         Color(0xFF686161) ,Modifier)
                     SimpleWhiteTextField(
-                        value = enteredText,
-                        onValueChange = { enteredText = it },
+                        value = textValue,
+                        onValueChange = { onTextValueChange(it) },
                         modifier = Modifier
                             .fillMaxWidth(),
                         backgroundColor = Color(0xFFD9D9D9),
+
 
                     )
                 }

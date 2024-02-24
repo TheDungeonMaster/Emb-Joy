@@ -18,6 +18,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,86 +42,106 @@ import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import com.example.pregnancyapp.authentication_logic.User
 import com.example.pregnancyapp.calendar.Calendar
-import com.example.pregnancyapp.convertDaysToWeeksAndDays
+import androidx.compose.material3.FloatingActionButtonElevation
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WelcomePage(daysLeft: Int , weekDayOfPregnancy: String, viewModel: WelcomePageViewModel) {
+fun WelcomePage(
+    daysLeft: Int,
+    weekDayOfPregnancy: String,
+    viewModel: WelcomePageViewModel,
+    onJournalAddButtonClick: () -> Unit
+) {
 
     val journalData by viewModel.journalData.collectAsState()
     val scrollState = rememberScrollState()
+    viewModel.getUserData()
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFEBF5F6))
-            .padding(bottom = 8.dp) ,
-        verticalArrangement = Arrangement.Top ,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Box(
-            modifier = Modifier.background(Color(0xFFEBF5F6))
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(start = 16.dp , top = 16.dp , end = 16.dp)
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { onJournalAddButtonClick() },
+                containerColor = Color.White
             ) {
-                ReusableText(
-                    text = "Welcome!" ,
-                    textStyle = MaterialTheme
-                        .typography.headlineMedium ,
-                    fontWeight = Bold ,
-                    Color.Black ,
-                    Modifier.padding(start = 10.dp)
-                )
-                Spacer(modifier = Modifier.weight(2f))
-                ReusableIcon(
-                    iconResourceId = R.drawable.bell , iconSize =
-                    35 , scaleSize = 1f , 0
-                )
-
+                Icon(Icons.Default.Add, contentDescription = "Add", tint = Color(0xFF63B8C3))
             }
         }
+    ) {
+
         Column(
             modifier = Modifier
-                .fillMaxHeight() ,
-            verticalArrangement = Arrangement.Top ,
+                .fillMaxSize()
+                .background(Color(0xFFEBF5F6))
+                .padding(it),
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
 
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFFEBF5F6).copy(alpha = 0.5f),
-                                Color(0xFFEBF5F6).copy(alpha = 0.3f)
+            Box(
+                modifier = Modifier.background(Color(0xFFEBF5F6))
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                ) {
+                    ReusableText(
+                        text = "Welcome!",
+                        textStyle = MaterialTheme
+                            .typography.headlineMedium,
+                        fontWeight = Bold,
+                        Color.Black,
+                        Modifier.padding(start = 10.dp)
+                    )
+                    Spacer(modifier = Modifier.weight(2f))
+                    ReusableIcon(
+                        iconResourceId = R.drawable.bell, iconSize =
+                        35, scaleSize = 1f, 0
+                    )
+
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = Modifier
+
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color(0xFFEBF5F6).copy(alpha = 0.5f),
+                                    Color(0xFFEBF5F6).copy(alpha = 0.3f)
+                                )
                             )
                         )
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+
+                ) {
+                    Calendar(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp))
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.verticalScroll(scrollState)
+                ) {
+                    CircleShapeComponent(daysLeft, weekDayOfPregnancy)
+                    JournalScreen(
+                        weight = journalData.weight.toString(),
+                        bloodSugar = journalData.bloodSugar.toString(),
+                        bloodPressure = journalData.bloodPressure.toString(),
+                        legSwellings = journalData.swellings,
+                        bleeding = journalData.bleeding
                     )
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
+                }
 
-            ) {
-                Calendar(Modifier.padding(start = 16.dp , end = 16.dp, bottom = 16.dp))
+
             }
-
-            Column(verticalArrangement = Arrangement.Top ,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.verticalScroll(scrollState)){
-                CircleShapeComponent(daysLeft , weekDayOfPregnancy)
-                JournalScreen(
-                    weight = journalData.weight.toString(),
-                    bloodSugar = journalData.bloodSugar.toString(),
-                    bloodPressure = journalData.bloodPressure.toString(),
-                    legSwellings = journalData.swellings,
-                    bleeding = journalData.bleeding
-                )
-            }
-
-
         }
     }
 }
@@ -127,11 +149,13 @@ fun WelcomePage(daysLeft: Int , weekDayOfPregnancy: String, viewModel: WelcomePa
 
 @Composable
 fun CircleShapeComponent(
-    daysLeft: Int ,
+    daysLeft: Int,
     weekDayOfPregnancy: String
 ) {
-    Box(modifier = Modifier
-        .background(Color.White)){
+    Box(
+        modifier = Modifier
+            .background(Color.White)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -187,7 +211,7 @@ fun CircleShapeComponent(
 @Preview(showSystemUi = true)
 @Composable
 fun WelcomePagePreview() {
-    WelcomePage(18 , "Week 8 day 2", viewModel())
+//    WelcomePage(18 , "Week 8 day 2", viewModel(), {})
 }
 
 
