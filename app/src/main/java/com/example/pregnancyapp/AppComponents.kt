@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -702,6 +703,33 @@ fun BooleanCheckUpQuestions(questionText: String, iconInt: Int) {
             }
         }
     }
+}
+
+@Composable
+fun NavButton(
+    iconResourceId: Int, iconSize: Int, scaleSize: Float,
+    bottomPadding: Int, onClick: () -> Unit
+) {
+
+
+    Box(
+        modifier = Modifier
+            .size(iconSize.dp)
+            .scale(scaleSize)
+            .clickable { onClick() }
+            .padding(bottom = bottomPadding.dp)
+
+    ) {
+        ReusableIcon(
+            iconResourceId = iconResourceId,
+            iconSize = iconSize,
+            scaleSize = scaleSize,
+            bottomPadding = bottomPadding
+        )
+
+
+    }
+
 }
 
 

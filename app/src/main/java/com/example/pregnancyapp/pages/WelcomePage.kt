@@ -37,6 +37,8 @@ import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableText
 import com.example.pregnancyapp.calendar.Calendar
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavController
+import com.example.pregnancyapp.CustomBottomNavigationBar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -45,6 +47,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePage(
+    navController: NavController,
     daysLeft: Int,
     weekDayOfPregnancy: String,
     viewModel: WelcomePageViewModel,
@@ -68,6 +71,11 @@ fun WelcomePage(
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add", tint = Color(0xFF63B8C3))
             }
+        },
+        bottomBar = {
+            CustomBottomNavigationBar(navController = navController, R
+            .drawable.union_active, R.drawable.bot_icon, R
+            .drawable.profile_nonactive)
         }
     ) {
 
@@ -139,8 +147,11 @@ fun WelcomePage(
                         legSwellings = journalData.swellings,
                         bleeding = journalData.bleeding
                     )
+
                 }
+
             }
+
         }
     }
 }
@@ -170,14 +181,6 @@ fun CircleShapeComponent(
                 iconResourceId = R.drawable.baby_embryo, iconSize = 130,
                 scaleSize = 2.5f, 20
             )
-
-
-//        if(AuthService.getCurrentUser()?.dayOfPregnancy?.toInt()==null){
-//            Log.i(ContentValues.TAG , "it is null")
-//        } else {
-//            Log.i(ContentValues.TAG , "it is NOT null")
-//        }
-//
 
             Column(
 

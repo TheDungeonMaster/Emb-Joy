@@ -16,10 +16,13 @@ import com.example.pregnancyapp.pages.CheckUpQuestionsViewModel
 import com.example.pregnancyapp.pages.FailPregnancyQuestion
 import com.example.pregnancyapp.pages.FirstPregnancyQuestion
 import com.example.pregnancyapp.pages.LoginPage
+import com.example.pregnancyapp.pages.MedicalData
 import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import com.example.pregnancyapp.pages.NumOfFailedPregnancies
 import com.example.pregnancyapp.pages.NumOfPregnancies
+import com.example.pregnancyapp.pages.PersonalData
 import com.example.pregnancyapp.pages.PreExistingMedConditions
+import com.example.pregnancyapp.pages.Profile
 import com.example.pregnancyapp.pages.SignUpPage
 import com.example.pregnancyapp.pages.WelcomePage
 import com.example.pregnancyapp.pages.WelcomePageViewModel
@@ -41,6 +44,9 @@ fun MainComposable(authViewModel: AuthViewModel) {
         addNumOfPregnanciesAnswer(navController , authViewModel)
         addFailedPregnanciesAnswer(navController , authViewModel)
         addPrevMedicalConditionsQuestion(navController , authViewModel)
+        addProfile(navController, authViewModel)
+        addPersonalDataPage(navController, authViewModel)
+        addMedicalDataPage(navController, authViewModel)
         addJournalPage(navController)
     }
 }
@@ -51,6 +57,7 @@ fun NavGraphBuilder.addWelcomePage(navController: NavController) {
         val viewModel: WelcomePageViewModel = viewModel()
         viewModel.getUserData()
         WelcomePage(
+            navController,
             viewModel.user.value.dayOfPregnancy?.toInt() ?: 0 ,
             viewModel.toWeekDay(),
             viewModel = viewModel
@@ -126,5 +133,31 @@ fun NavGraphBuilder.addPrevMedicalConditionsQuestion(
 ) {
     composable("medicalconditions") {
         PreExistingMedConditions(navController , authViewModel)
+    }
+}
+fun NavGraphBuilder.addProfile(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
+    composable("profile") {
+        Profile(navController, authViewModel)
+    }
+}
+
+fun NavGraphBuilder.addPersonalDataPage(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
+    composable("personaldata") {
+        PersonalData(navController, authViewModel)
+    }
+}
+
+fun NavGraphBuilder.addMedicalDataPage(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
+    composable("medicaldata") {
+        MedicalData(navController, authViewModel)
     }
 }
