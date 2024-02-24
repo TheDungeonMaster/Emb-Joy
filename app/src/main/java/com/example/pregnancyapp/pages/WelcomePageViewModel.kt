@@ -19,12 +19,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.stream.Collectors
 import java.util.stream.Stream
+
 
 
 class WelcomePageViewModel : ViewModel() {
@@ -37,16 +40,32 @@ class WelcomePageViewModel : ViewModel() {
 
     init {
         getUserData()
-
+        getJournalData(today.format(DateTimeFormatter.ofPattern("dd.MM.yy")))
+        Log.d(TAG, "")
     }
 
     fun getJournalData(date: String) {
         viewModelScope.launch {
-            userDao.getJournalWithQuestionnaire(date, AuthService.userEmail).collect {
-                _journalData.value =
-                    it ?: Journal("N/A", user.value.email, "N/A", "N/A", "N/A", "N/A")
+            userDao.getJournalWithQuestionnaire(date, AuthService.userEmail).collect { journalData ->
+                _journalData.emit(journalData ?: Journal("",""))
             }
         }
+    }
+
+    fun updateJournalData(date: String) {
+        val email = AuthService.userEmail // Assuming you have access to the current user's email
+
+        viewModelScope.launch {
+
+            userDao.getJournalWithQuestionnaire(date, email).collect { journal ->
+                // Check if the journal is not null then emit the updated journal data
+                // This will trigger UI recomposition if there are any collectors
+                journal?.let {
+                    _journalData.emit(it)
+                }
+            }
+        }
+
     }
 
     fun getUserData() {

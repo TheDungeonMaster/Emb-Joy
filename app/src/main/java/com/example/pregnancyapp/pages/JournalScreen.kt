@@ -43,6 +43,7 @@ import com.example.pregnancyapp.SimpleWhiteTextField
 import com.example.pregnancyapp.TextFieldCheckUpQuestion
 
 
+
 @Composable
 fun JournalScreen(
     weight: String,
@@ -82,6 +83,8 @@ fun JournalScreen(
         }
     }
 }
+
+
 
 @Composable
 fun JournalBooleanEntries(text: String, iconInt: Int, value: Boolean) {

@@ -100,8 +100,7 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
             Button(onClick = { viewModel.onSubmitButtonClick {
                 // This block is called after the database operation completes
                 navController.popBackStack()
-            }
-                             },
+            } },
                 modifier = Modifier, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF63B8C3))
             ) {
                 Text(

@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -180,12 +181,22 @@ fun ContentItem(
 
 @Composable
 fun Content(
-    data: CalendarUiModel ,
-    onDateClickListener: (CalendarUiModel.Date) -> Unit ,
+    data: CalendarUiModel,
+    onDateClickListener: (CalendarUiModel.Date) -> Unit,
     viewModel: WelcomePageViewModel,
     modifier: Modifier = Modifier
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally){
+    //
+    LaunchedEffect(data.visibleDates.firstOrNull()) {
+        data.visibleDates.firstOrNull()?.let { firstVisibleDate ->
+            val formattedDate = firstVisibleDate.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
+            viewModel.getJournalData(formattedDate)
+            viewModel.updateJournalData(formattedDate)
+            Log.d("ContentComposable", "LaunchedEffect: Getting journal data for $formattedDate")
+        }
+    }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
         LazyRow {
             items(items = data.visibleDates) { date ->
                 ContentItem(date) {
@@ -193,7 +204,7 @@ fun Content(
                     val formattedDate = date.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
                     // Call getJournalData with the formatted date
                     viewModel.getJournalData(formattedDate)
-                    Log.d(TAG, "getting journal data for $formattedDate")
+                    Log.d("ContentComposable", "Item click: Getting journal data for $formattedDate")
 
                     // Notify the rest of the UI that a new date has been selected
                     onDateClickListener(date)
@@ -201,7 +212,6 @@ fun Content(
             }
         }
     }
-
 }
 
 

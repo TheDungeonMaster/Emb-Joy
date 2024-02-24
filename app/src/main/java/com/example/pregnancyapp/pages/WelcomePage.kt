@@ -1,9 +1,8 @@
 package com.example.pregnancyapp.pages
 
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,18 +30,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.ReusableIcon
 import com.example.pregnancyapp.ReusableText
-import com.example.pregnancyapp.authentication_logic.AuthService
-import com.example.pregnancyapp.authentication_logic.AuthViewModel
-import com.example.pregnancyapp.authentication_logic.User
 import com.example.pregnancyapp.calendar.Calendar
-import androidx.compose.material3.FloatingActionButtonElevation
+import androidx.compose.runtime.LaunchedEffect
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +50,11 @@ fun WelcomePage(
     viewModel: WelcomePageViewModel,
     onJournalAddButtonClick: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getUserData()
+        viewModel.getJournalData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yy")))
+        Log.d(TAG, "")
+    }
 
     val journalData by viewModel.journalData.collectAsState()
     val scrollState = rememberScrollState()
@@ -98,7 +100,6 @@ fun WelcomePage(
                         iconResourceId = R.drawable.bell, iconSize =
                         35, scaleSize = 1f, 0
                     )
-
                 }
             }
             Column(
@@ -113,7 +114,7 @@ fun WelcomePage(
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
-                                    Color(0xFFEBF5F6).copy(alpha = 0.5f),
+                                    Color(0xFFEBF5F6).copy(alpha = 0.5f) ,
                                     Color(0xFFEBF5F6).copy(alpha = 0.3f)
                                 )
                             )
@@ -139,8 +140,6 @@ fun WelcomePage(
                         bleeding = journalData.bleeding
                     )
                 }
-
-
             }
         }
     }
@@ -162,7 +161,7 @@ fun CircleShapeComponent(
                 .height(500.dp)
                 .padding(30.dp)
                 .background(
-                    Color(android.graphics.Color.parseColor("#64BCB9")),
+                    Color(android.graphics.Color.parseColor("#64BCB9")) ,
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center // Center the content inside the Box
