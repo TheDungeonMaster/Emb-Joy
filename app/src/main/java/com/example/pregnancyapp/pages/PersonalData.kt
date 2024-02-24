@@ -18,12 +18,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pregnancyapp.R
 import com.example.pregnancyapp.ReusableIcon
@@ -32,7 +36,15 @@ import com.example.pregnancyapp.authentication_logic.AuthService
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
 
 @Composable
-fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
+fun PersonalData(navController: NavController) {
+
+    val viewModel: PersonalDataViewModel = viewModel()
+    val state by viewModel.userData.collectAsState()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.updateUserData()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,9 +74,9 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (AuthService.getCurrentUser()?.nameSurname.toString()),
+                text = (state.name),
                 color = Color(0xFFFAFAFA),
-                textStyle = MaterialTheme.typography.bodyLarge,
+                textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(bottom = 40.dp, end = 20.dp)
@@ -93,7 +105,7 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (AuthService.getCurrentUser()?.dayOfPregnancy.toString()),
+                text = (state.dayofPregnancy),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
@@ -124,7 +136,7 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = AuthService.getCurrentUser()?.weight.toString(),
+                text = state.weight,
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
@@ -155,7 +167,7 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (AuthService.getCurrentUser()?.height.toString()),
+                text = (state.height),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
@@ -186,7 +198,7 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (AuthService.getCurrentUser()?.numOfPregnancies.toString()),
+                text = (state.dayofPregnancy),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
@@ -217,7 +229,7 @@ fun PersonalData(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (AuthService.getCurrentUser()?.numOfFailedPregnancies.toString()),
+                text = (state.failedPregnancies),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,

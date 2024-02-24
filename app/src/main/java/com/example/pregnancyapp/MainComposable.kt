@@ -21,6 +21,7 @@ import com.example.pregnancyapp.pages.MommyQuestionnairePage
 import com.example.pregnancyapp.pages.NumOfFailedPregnancies
 import com.example.pregnancyapp.pages.NumOfPregnancies
 import com.example.pregnancyapp.pages.PersonalData
+import com.example.pregnancyapp.pages.PersonalDataViewModel
 import com.example.pregnancyapp.pages.PreExistingMedConditions
 import com.example.pregnancyapp.pages.Profile
 import com.example.pregnancyapp.pages.SignUpPage
@@ -148,8 +149,9 @@ fun NavGraphBuilder.addPersonalDataPage(
     navController: NavController,
     authViewModel: AuthViewModel
 ) {
+
     composable("personaldata") {
-        PersonalData(navController, authViewModel)
+        PersonalData(navController)
     }
 }
 

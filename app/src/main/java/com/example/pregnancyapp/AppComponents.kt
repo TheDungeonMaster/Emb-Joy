@@ -227,7 +227,6 @@ fun SimpleWhiteTextField(
             .padding(top = 10.dp, start = 16.dp, end = 16.dp) // Adjusted
             // padding
             .height(30.dp),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         singleLine = true
     )
 }

@@ -78,6 +78,9 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
                 onTextValueChange = { newValue -> viewModel.onBloodPressureChange(newValue) },
                 textValue = state.value.bloodPressure
             )
+
+
+
             Spacer(modifier = Modifier.height(20.dp))
             CheckupBooleanEntries(
                 text = "Did you experience any swelling in your legs today?",
@@ -89,12 +92,27 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
             Spacer(modifier = Modifier.height(20.dp))
 
             CheckupBooleanEntries(
-                text = "Did you experience any swelling in your legs today?",
+                text = "Did you experience any bleedings?",
                 iconInt = R.drawable.menstruation_logo,
                 value = state.value.bleeding,
                 onTrueButtonClick = {viewModel.onBleedingTrueButtonClick()},
                 onFalseButtonClick = {viewModel.onBleedingFalseButtonClick()}
             )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            TextFieldCheckUpQuestion(
+                "How do you feel today?", R.drawable.blood_pressure_logo,
+                onTextValueChange = { newValue -> viewModel.onMoodChange(newValue) },
+                textValue = state.value.mood.toString()
+            )
+
+
+            TextFieldCheckUpQuestion(
+                "Any other notes/comments?", R.drawable.blood_pressure_logo,
+                onTextValueChange = { newValue -> viewModel.onCommentsChange(newValue) },
+                textValue = state.value.comments.toString()
+            )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(onClick = { viewModel.onSubmitButtonClick {

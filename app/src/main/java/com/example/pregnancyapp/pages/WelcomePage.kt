@@ -39,6 +39,7 @@ import com.example.pregnancyapp.calendar.Calendar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import com.example.pregnancyapp.CustomBottomNavigationBar
+import com.example.pregnancyapp.authentication_logic.AuthService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -61,6 +62,8 @@ fun WelcomePage(
 
     val journalData by viewModel.journalData.collectAsState()
     val scrollState = rememberScrollState()
+    val fullName = AuthService.getCurrentUser()?.nameSurname
+    val firstName = fullName?.substringBefore(" ") ?: "Default"
     viewModel.getUserData()
 
     Scaffold(
@@ -95,8 +98,10 @@ fun WelcomePage(
                     modifier = Modifier
                         .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                 ) {
+
+
                     ReusableText(
-                        text = "Welcome!",
+                        text = "Welcome, $firstName",
                         textStyle = MaterialTheme
                             .typography.headlineMedium,
                         fontWeight = Bold,
@@ -145,7 +150,9 @@ fun WelcomePage(
                         bloodSugar = journalData.bloodSugar.toString(),
                         bloodPressure = journalData.bloodPressure.toString(),
                         legSwellings = journalData.swellings,
-                        bleeding = journalData.bleeding
+                        bleeding = journalData.bleeding,
+                        mood = journalData.mood.toString(),
+                        comments = journalData.comments.toString()
                     )
 
                 }

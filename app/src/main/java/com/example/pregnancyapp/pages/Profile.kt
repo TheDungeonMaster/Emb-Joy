@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pregnancyapp.CustomBottomNavigationBar
 import com.example.pregnancyapp.R
@@ -39,6 +41,10 @@ import com.example.pregnancyapp.authentication_logic.AuthViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Profile(navController: NavController, authViewModel: AuthViewModel){
+
+    val viewModel: PersonalDataViewModel = viewModel()
+    val state = viewModel.userData.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -68,7 +74,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
                 )
                 Spacer(modifier = Modifier.width(30.dp))
                 ReusableText(
-                    text = "Aigerim Maratova",
+                    text = state.value.name,
                     textStyle = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,

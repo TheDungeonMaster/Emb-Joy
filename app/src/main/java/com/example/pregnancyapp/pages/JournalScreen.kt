@@ -51,6 +51,8 @@ fun JournalScreen(
     bloodPressure: String,
     legSwellings: Boolean,
     bleeding: Boolean,
+    mood: String,
+    comments: String,
     modifier: Modifier = Modifier
 ){
     Surface(
@@ -80,6 +82,12 @@ fun JournalScreen(
                 iconInt = R.drawable.menstruation_logo,
                 value = bleeding
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+            JournalEntry("Mood", R.drawable.failed_pregnancies_logo, mood)
+
+            Spacer(modifier = Modifier.height(20.dp))
+            JournalEntry("Comments/notes", R.drawable.med_data, comments)
         }
     }
 }
@@ -269,6 +277,8 @@ fun JournalPreview() {
         "190ml",
         "180ml",
         true,
-        false
+        false,
+        "as good as it gets",
+        "great as shit"
     )
 }

@@ -15,8 +15,8 @@ data class Journal (
     val bloodPressure: String? = "N/A",
     val bloodSugar: String? = "N/A",
     val swellings: Boolean = false,
-    val bleeding: Boolean = false
-
-
+    val bleeding: Boolean = false,
+    val mood: String? = "N/A",
+    val comments: String? = "N/A"
 ){
 }

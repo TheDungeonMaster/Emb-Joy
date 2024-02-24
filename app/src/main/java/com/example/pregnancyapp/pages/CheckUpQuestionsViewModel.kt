@@ -35,7 +35,9 @@ class CheckUpQuestionsViewModel : ViewModel() {
                 bloodSugar = checkUpQuestionsState.value.bloodSugar,
                 weight = checkUpQuestionsState.value.weightField,
                 swellings = checkUpQuestionsState.value.swellings,
-                bleeding = checkUpQuestionsState.value.bleeding
+                bleeding = checkUpQuestionsState.value.bleeding,
+                mood = checkUpQuestionsState.value.mood,
+                comments = checkUpQuestionsState.value.comments
             ))
         }
         updateState(_checkUpQuestionsState.value.copy(
@@ -44,6 +46,8 @@ class CheckUpQuestionsViewModel : ViewModel() {
             bloodPressure = "",
             swellings = false,
             bleeding = false,
+            mood = "",
+            comments = ""
         ))
         onComplete()
     }
@@ -76,6 +80,14 @@ class CheckUpQuestionsViewModel : ViewModel() {
         updateState(_checkUpQuestionsState.value.copy(bleeding = false))
     }
 
+    fun onMoodChange(value: String) {
+        updateState(_checkUpQuestionsState.value.copy(mood = value))
+    }
+
+    fun onCommentsChange(value: String) {
+        updateState(_checkUpQuestionsState.value.copy(comments = value))
+    }
+
     private fun updateState(newState: CheckUpQuestionsState) {
         _checkUpQuestionsState.value = newState
     }
@@ -86,5 +98,7 @@ data class CheckUpQuestionsState(
     var bloodSugar: String = "",
     var bloodPressure: String = "",
     var swellings: Boolean = false,
-    var bleeding: Boolean = false
+    var bleeding: Boolean = false,
+    val mood: String? = "",
+    val comments: String? = ""
         )
