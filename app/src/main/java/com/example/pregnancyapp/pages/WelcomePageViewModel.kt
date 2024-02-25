@@ -39,6 +39,73 @@ class WelcomePageViewModel : ViewModel() {
     val journalData = _journalData.asStateFlow()
 
     init {
+        viewModelScope.launch {
+            userDao.insertJournal(
+                journal = Journal(
+                    "21.02.24",
+                    "jane.jj@mail.com",
+                    "Jane JJ",
+                    "131",
+                    "56",
+                    "174",
+                    "120/80",
+                    "5.4",
+                    false,
+                    false,
+                    "Great, no changes",
+                    "No comments today"
+                )
+            )
+            userDao.insertJournal(
+                journal = Journal(
+                    "22.02.24",
+                    "jane.jj@mail.com",
+                    "Jane JJ",
+                    "131",
+                    "58",
+                    "174",
+                    "120/80",
+                    "5.4",
+                    true,
+                    true,
+                    "Okay",
+                    "No comments today"
+                )
+            )
+            userDao.insertJournal(
+                journal = Journal(
+                    "23.02.24",
+                    "jane.jj@mail.com",
+                    "Jane JJ",
+                    "131",
+                    "59",
+                    "174",
+                    "120/80",
+                    "5.2",
+                    true,
+                    false,
+                    "So so",
+                    "Registered for an appointment with my doctor"
+                )
+            )
+            userDao.insertJournal(
+                journal = Journal(
+                    "24.02.24",
+                    "jane.jj@mail.com",
+                    "Jane JJ",
+                    "131",
+                    "60",
+                    "174",
+                    "120/80",
+                    "6",
+                    false,
+                    true,
+                    "Good",
+                    "No comments today"
+                )
+            )
+        }
+
         getUserData()
         getJournalData(today.format(DateTimeFormatter.ofPattern("dd.MM.yy")))
         Log.d(TAG, "")

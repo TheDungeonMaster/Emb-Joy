@@ -87,7 +87,7 @@ fun MainChatScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 10.dp),
+                            .padding(end = 0.dp),
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -119,24 +119,7 @@ fun MainChatScreen(
                                 scaleSize = 1.3f,
                                 bottomPadding = 0
                             )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
-                            ) {
-                                ReusableIcon(
-                                    iconResourceId = R.drawable.bot_online_dot,
-                                    iconSize = 24, // Adjust the size as needed
-                                    scaleSize = 1.5f,
-                                    bottomPadding = 0
-                                )
-                                ReusableIcon(
-                                    iconResourceId = R.drawable.online_text_bot,
-                                    iconSize = 100,
-                                    scaleSize = 1.4f,
-                                    bottomPadding = 0
-                                )
 
-                            }
                         }
                     }
                 }

@@ -101,7 +101,7 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
             Spacer(modifier = Modifier.height(20.dp))
 
             TextFieldCheckUpQuestion(
-                "How do you feel today?", R.drawable.blood_pressure_logo,
+                "How do you feel today?", R.drawable.pregnancies_num_logo,
                 onTextValueChange = { newValue -> viewModel.onMoodChange(newValue) },
                 textValue = state.value.mood.toString()
             )
@@ -109,7 +109,7 @@ fun CheckUpQuestions(viewModel: CheckUpQuestionsViewModel, navController: NavCon
             Spacer(modifier = Modifier.height(20.dp))
 
             TextFieldCheckUpQuestion(
-                "Any other notes/comments?", R.drawable.blood_pressure_logo,
+                "Any other notes/comments?", R.drawable.notes_logo,
                 onTextValueChange = { newValue -> viewModel.onCommentsChange(newValue) },
                 textValue = state.value.comments.toString()
             )

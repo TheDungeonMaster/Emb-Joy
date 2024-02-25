@@ -27,9 +27,10 @@ class PersonalDataViewModel : ViewModel() {
             userDao.getCurrentUserFlow(AuthService.userEmail).collect {
                 _userData.value = _userData.value.copy(
                     name = it.nameSurname ?: "",
-                    dayofPregnancy = it.dayOfPregnancy ?: "",
+                    dayOfPregnancy = it.dayOfPregnancy ?: "",
                     height = it.height ?: "",
                     weight = it.weight ?: "",
+                    prevPregnancies = it.numOfPregnancies ?: "",
                     failedPregnancies = it.numOfFailedPregnancies ?: ""
                 )
 
@@ -42,7 +43,8 @@ class PersonalDataViewModel : ViewModel() {
 
 data class UserData(
         var name: String = "",
-        var dayofPregnancy: String = "",
+        var dayOfPregnancy: String = "",
+        var prevPregnancies: String = "",
         var failedPregnancies: String = "",
         var height: String = "",
         var weight: String = ""

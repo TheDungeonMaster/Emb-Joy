@@ -87,10 +87,10 @@ fun JournalScreen(
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            JournalEntry("Mood", R.drawable.failed_pregnancies_logo, mood)
+            JournalEntry("Mood", R.drawable.pregnancies_num_logo, mood)
 
             Spacer(modifier = Modifier.height(20.dp))
-            JournalEntry("Comments/notes", R.drawable.med_data, comments)
+            JournalEntry("Comments/notes", R.drawable.notes_logo, comments)
         }
     }
 }

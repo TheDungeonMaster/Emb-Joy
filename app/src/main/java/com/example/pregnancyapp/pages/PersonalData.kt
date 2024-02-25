@@ -105,7 +105,7 @@ fun PersonalData(navController: NavController) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (state.dayofPregnancy),
+                text = (state.dayOfPregnancy),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
@@ -198,7 +198,7 @@ fun PersonalData(navController: NavController) {
             Spacer(modifier = Modifier.width(40.dp))
 
             ReusableText(
-                text = (state.dayofPregnancy),
+                text = (state.prevPregnancies),
                 color = Color(0xFFFAFAFA),
                 textStyle = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
