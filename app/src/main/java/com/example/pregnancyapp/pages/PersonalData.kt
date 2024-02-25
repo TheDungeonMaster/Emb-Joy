@@ -48,7 +48,7 @@ fun PersonalData(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFFFF)),
+            .background(Color(0xFFF1F1F1)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -238,6 +238,9 @@ fun PersonalData(navController: NavController) {
                     .weight(1f)
             )
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+
         Button(
             onClick = { navController.popBackStack()},
             modifier = Modifier

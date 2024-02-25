@@ -50,7 +50,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color(0xFFFFFFFF))
+            .background(Color(0xFFF1F1F1))
         ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -188,7 +188,7 @@ fun Profile(navController: NavController, authViewModel: AuthViewModel){
         CustomBottomNavigationBar(
             navController = navController, R.drawable
                 .union, R.drawable.bot_icon, R.drawable
-                .profile_active
+                .profile_active, Modifier, Color(0xFFF1F1F1)
         )
 
         }

@@ -10,6 +10,8 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pregnancyapp.aichat.ChatScreen
+import com.example.pregnancyapp.aichat.MainChatScreen
 import com.example.pregnancyapp.authentication_logic.AuthViewModel
 import com.example.pregnancyapp.authentication_logic.User
 import com.example.pregnancyapp.pages.CheckUpQuestions
@@ -53,6 +55,7 @@ fun MainComposable(authViewModel: AuthViewModel) {
         addPersonalDataPage(navController, authViewModel)
         addMedicalDataPage(navController, authViewModel)
         addJournalPage(navController)
+        addChatPage(navController)
 
     }
 }
@@ -173,5 +176,11 @@ fun NavGraphBuilder.addMedicalDataPage(
 ) {
     composable("medicaldata") {
         MedicalData(navController, authViewModel)
+    }
+}
+
+fun NavGraphBuilder.addChatPage(navController: NavController) {
+    composable("chat") {
+        MainChatScreen(navController)
     }
 }

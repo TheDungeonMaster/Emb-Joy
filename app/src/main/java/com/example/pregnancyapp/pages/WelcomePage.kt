@@ -78,7 +78,7 @@ fun WelcomePage(
         bottomBar = {
             CustomBottomNavigationBar(navController = navController, R
             .drawable.union_active, R.drawable.bot_icon, R
-            .drawable.profile_nonactive)
+            .drawable.profile_nonactive, Modifier, Color.White)
         }
     ) {
 

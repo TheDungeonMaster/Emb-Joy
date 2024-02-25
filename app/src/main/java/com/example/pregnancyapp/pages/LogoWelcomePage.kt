@@ -1,6 +1,7 @@
 package com.example.pregnancyapp.pages
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ fun LogoWelcomePage(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFE0F8FB),
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -44,6 +46,7 @@ fun LogoWelcomePage(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(120.dp))
             ReusableIcon(
                 iconResourceId = R.drawable.embjoy_logo,
                 iconSize = 100,
@@ -61,11 +64,15 @@ fun LogoWelcomePage(navController: NavController) {
                 bottomPadding = 8
             )
             Spacer(modifier = Modifier.height(120.dp))
-            Row() {
+            Row(
+                modifier = Modifier
+                    .padding(15.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 Button(
                     onClick = {navController.navigate("login")},
                     modifier = Modifier
-                        .padding(start = 15.dp, top = 10.dp)
+                        .weight(0.5f)
                         .height(70.dp)
                         .width(130.dp),
 
@@ -80,10 +87,11 @@ fun LogoWelcomePage(navController: NavController) {
                         modifier = Modifier
                     )
                 }
+                Spacer(modifier = Modifier.width(15.dp))
                 Button(
                     onClick = {navController.navigate("signup")},
                     modifier = Modifier
-                        .padding(start = 15.dp, top = 10.dp)
+                        .weight(0.5f)
                         .height(70.dp)
                         .width(160.dp),
 

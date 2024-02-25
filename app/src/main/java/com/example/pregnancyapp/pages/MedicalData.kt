@@ -37,7 +37,7 @@ fun MedicalData(navController: NavController, authViewModel: AuthViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFFFF)),
+            .background(Color(0xFFF1F1F1)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val user = AuthService.getCurrentUser()
@@ -252,6 +252,8 @@ fun MedicalData(navController: NavController, authViewModel: AuthViewModel) {
             }
 
         }
+        Spacer(modifier = Modifier.weight(1f))
+
         Button(
             onClick = { navController.popBackStack()},
             modifier = Modifier

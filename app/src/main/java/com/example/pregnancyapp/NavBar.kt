@@ -25,13 +25,12 @@ import com.example.pregnancyapp.authentication_logic.AuthViewModel
 @Composable
 fun CustomBottomNavigationBar(navController: NavController, colorId1: Int,
                               colorId2: Int, colorId3: Int, modifier:
-                              Modifier = Modifier) {
+                              Modifier = Modifier, barColor: Color) {
 
     Surface(
         modifier = modifier
-            .fillMaxWidth()
-            .background(Color.LightGray, RoundedCornerShape(20
-                .dp))
+            .fillMaxWidth(),
+        color = barColor
     ){
         Row(
             modifier = Modifier
@@ -56,7 +55,7 @@ fun CustomBottomNavigationBar(navController: NavController, colorId1: Int,
                 iconSize = 24,
                 scaleSize = 1.2f,
                 bottomPadding = 0,
-                onClick = {navController.navigate("profile")}
+                onClick = {navController.navigate("chat")}
             )
 
             NavButton(
