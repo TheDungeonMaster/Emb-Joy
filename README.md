@@ -1,0 +1,1 @@
+Emb-JOY - the best app for keeping track of your pregnancy. Contributors: Aiganym Kassymbaeva (UI Design), Ardak Atagulov (Developer), Abdiakhmet Kozhamkulov (Developer), Naziya Zhanabayeva (Developer)
