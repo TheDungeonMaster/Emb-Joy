@@ -47,7 +47,9 @@ class ChatViewModel : ViewModel() {
                 chatList = it.chatList.toMutableList().apply {
                     add(0, Chat(prompt, bitmap, true))
                 },
-                prompt = "",
+                 // prompt prompt !!
+                prompt = "You are an AI chatbot programmed to respond exclusively to pregnancy-related inquiries, offering tailored assistance to expectant mothers." +
+                        "Prioritize safety by always advising users to consult a doctor for serious concerns. Provide supportive resources and connections to healthcare professionals when needed.",
                 bitmap = null
             )
         }
